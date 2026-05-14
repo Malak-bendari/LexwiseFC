@@ -12,6 +12,9 @@ login_manager = LoginManager()
 
 @login_manager.unauthorized_handler
 def unauthorized():
+    from flask import request
+    if request.is_json or request.path.startswith(("/finance", "/ai", "/auth", "/subscriptions")):
+        return jsonify({"error": "Unauthorized"}), 401
     return redirect("/")
 
 
