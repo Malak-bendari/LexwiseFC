@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - LexWise{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div style="display: block;" id="dashboard-page">
+    <div class="hero">
+        <h1>Your ideas. Protected. Matched. Signed.</h1>
+        <p>LexWise scans, scores, and secures your next move.</p>
+        <div class="hero-buttons">
+            <button class="btn btn-primary" onclick="document.getElementById('uploadProjectForm').parentElement.style.display='flex'">
+                <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Upload Project
+            </button>
+            <button class="btn btn-secondary" onclick="document.getElementById('uploadContractForm').parentElement.style.display='flex'">
+                <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Analyze Contract
+            </button>
+        </div>
+    </div>
+
+    <!-- Cross-promotion banner -->
+    <div class="service-banner">
+        <div class="service-banner-content">
+            <div class="service-banner-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="service-banner-text">
+                <h4>Level Up Your Finances</h4>
+                <p>Switch to FinCoach for AI-powered budgeting</p>
+            </div>
+        </div>
+        <div class="service-banner-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div>📊</div>
+            <h3>{{ projects|length or '0' }}</h3>
+            <p>Projects</p>
+        </div>
+        <div class="stat-card">
+            <div>🤝</div>
+            <h3>{{ matches|length or '0' }}</h3>
+            <p>Matches</p>
+        </div>
+        <div class="stat-card">
+            <div>⭐</div>
+            <h3>{{ avg_score or '0' }}</h3>
+            <p>Avg Score</p>
+        </div>
+    </div>
+
+    <!-- My Projects Section -->
+    <div class="section-header">
+        <h2>My Projects</h2>
+        <button class="btn-ghost btn-small" onclick="document.getElementById('uploadProjectForm').parentElement.style.display='flex'">+ New Project</button>
+    </div>
+
+    {% if projects %}
+    <div class="activity-list">
+        {% for project in projects %}
+        <div class="activity-item">
+            <div class="activity-status status-scanned"></div>
+            <div class="activity-info">
+                <h4>{{ project.title }}</h4>
+                <span>Score: {{ project.score or '0' }}% • {{ project.category or 'General' }}</span>
+            </div>
+            <div class="activity-score">{{ project.score or '0' }}</div>
+            <div class="activity-actions">
+                <button class="btn btn-ghost btn-small" onclick="window.location.href='/projects/{{ project.id }}'">View</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="placeholder-panel">
+        <h3>No Projects Yet</h3>
+        <p>Start by uploading a project to get your first score and find matches</p>
+        <div class="placeholder-actions">
+            <button class="btn btn-primary" onclick="document.getElementById('uploadProjectForm').parentElement.style.display='flex'">Upload Your First Project</button>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Recommended Matches Section -->
+    <div class="section-header">
+        <h2>Recommended Matches</h2>
+        <button class="btn-ghost btn-small" onclick="location.reload()">Refresh</button>
+    </div>
+
+    {% if matches %}
+    <div class="activity-list">
+        {% for match in matches %}
+        <div class="activity-item">
+            <div class="activity-status status-matched"></div>
+            <div class="activity-info">
+                <h4>{{ match.name }}</h4>
+                <span>Compatibility: {{ match.score }}% • {{ match.investment_range }}</span>
+            </div>
+            <div class="activity-score">{{ match.score }}</div>
+            <div class="activity-actions">
+                <button class="btn btn-ghost btn-small" onclick="alert('Match details coming soon')">View</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="placeholder-panel">
+        <h3>Upload a Project to See Matches</h3>
+        <p>Once you upload a project, our AI will find matching investors for you</p>
+        <div class="placeholder-actions">
+            <button class="btn btn-primary" onclick="document.getElementById('uploadProjectForm').parentElement.style.display='flex'">Upload Project</button>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Upload Project Modal -->
+<div id="uploadProjectForm" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);z-index:10000;display:none;align-items:center;justify-content:center;">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:450px;width:90%;">
+        <h2 style="font-family:Orbitron;margin-bottom:20px;">Upload Project</h2>
+        <form method="POST" action="{{ url_for('main.new_project') }}">
+            <div class="form-group">
+                <label>Project Title</label>
+                <input type="text" name="title" required placeholder="e.g., AI Legal Assistant">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="description" required placeholder="Describe your idea..." style="width:100%;padding:10px;background:var(--bg-deep);border:1px solid var(--border);border-radius:10px;color:white;font-family:Inter;"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Budget Range</label>
+                <input type="text" name="budget" placeholder="$30,000 - $50,000">
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category" style="width:100%;padding:10px;background:var(--bg-deep);border:1px solid var(--border);border-radius:10px;color:white;">
+                    <option>AI/ML</option>
+                    <option>Blockchain</option>
+                    <option>SaaS</option>
+                    <option>Mobile App</option>
+                    <option>Legal Tech</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div style="display:flex;gap:12px;">
+                <button type="submit" class="btn btn-primary" style="flex:1;">Analyze & Upload</button>
+                <button type="button" class="btn btn-secondary" style="flex:1;" onclick="document.getElementById('uploadProjectForm').style.display='none'">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Upload Contract Modal -->
+<div id="uploadContractForm" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);z-index:10000;display:none;align-items:center;justify-content:center;">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:450px;width:90%;">
+        <h2 style="font-family:Orbitron;margin-bottom:20px;">Upload & Analyze Contract</h2>
+        <form method="POST" action="{{ url_for('main.new_project') }}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Contract Title</label>
+                <input type="text" name="contract_title" required placeholder="e.g., NDA Agreement">
+            </div>
+            <div class="form-group">
+                <label>Upload File (PDF, DOC, DOCX, TXT)</label>
+                <input type="file" name="contract_file" required accept=".pdf,.doc,.docx,.txt">
+            </div>
+            <div style="display:flex;gap:12px;">
+                <button type="submit" class="btn btn-primary" style="flex:1;">Upload & Analyze</button>
+                <button type="button" class="btn btn-secondary" style="flex:1;" onclick="document.getElementById('uploadContractForm').style.display='none'">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

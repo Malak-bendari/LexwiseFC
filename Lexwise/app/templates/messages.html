@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Messages - LexWise{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Inbox</h1>
+    <p>Keep every conversation organized in one secure place.</p>
+    <div class="hero-buttons">
+        <button class="btn btn-primary" onclick="alert('Compose is coming soon')">Compose</button>
+        <button class="btn btn-secondary" onclick="showHelpModal()">Message tips</button>
+    </div>
+</div>
+
+<div class="section-header">
+    <h2>Recent Conversations</h2>
+</div>
+
+<div class="chat-grid">
+    <div class="chat-list-card">
+        <div class="chat-item active">
+            <div class="chat-avatar">B</div>
+            <div>
+                <h4>Bright Future Capital</h4>
+                <p>Last message: “We’d love to review your deck.”</p>
+            </div>
+            <span>2h</span>
+        </div>
+        <div class="chat-item">
+            <div class="chat-avatar">N</div>
+            <div>
+                <h4>Nova Labs</h4>
+                <p>Last message: “Can we schedule a quick call?”</p>
+            </div>
+            <span>1d</span>
+        </div>
+        <div class="chat-item">
+            <div class="chat-avatar">B</div>
+            <div>
+                <h4>Blue Ocean Ventures</h4>
+                <p>Last message: “The term sheet looks good.”</p>
+            </div>
+            <span>3d</span>
+        </div>
+    </div>
+
+    <div class="chat-window-card">
+        <div class="chat-header">
+            <div>
+                <h3>Bright Future Capital</h3>
+                <span>Investor • Paris</span>
+            </div>
+        </div>
+        <div class="chat-messages">
+            <div class="message received">
+                <p>Hi, we reviewed your pitch and we’re interested in next steps.</p>
+                <span>10:42 AM</span>
+            </div>
+            <div class="message sent">
+                <p>Great news! I can share the detailed financial plan now.</p>
+                <span>10:44 AM</span>
+            </div>
+        </div>
+        <div class="chat-input-row">
+            <input type="text" placeholder="Write your message...">
+            <button class="btn btn-primary">Send</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

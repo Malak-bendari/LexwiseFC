@@ -31,6 +31,8 @@ def create_app(config_class=Config):
     from .models.transaction import Transaction
     from .models.budget import Budget
     from .models.ai_profile import AIProfile
+    from .models.goal import Goal
+    from .models.investment import Investment
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -41,43 +43,15 @@ def create_app(config_class=Config):
     from .routes.finance_routes import finance_bp
     from .routes.ai_routes import ai_bp
     from .routes.subscription_routes import subscription_bp
+    from .routes.frontend_routes import frontend_bp
 
     app.register_blueprint(auth_bp, url_prefix="/auth")
     app.register_blueprint(finance_bp, url_prefix="/finance")
     app.register_blueprint(ai_bp, url_prefix="/ai")
     app.register_blueprint(subscription_bp, url_prefix="/subscriptions")
+    app.register_blueprint(frontend_bp)
 
-    # Root route — API index
-    @app.route("/")
-    def index():
-        return jsonify({
-            "name": "LexWise API",
-            "version": "1.0.0",
-            "description": "AI-powered financial coaching API",
-            "endpoints": {
-                "auth": {
-                    "POST /auth/register": "Create a new account",
-                    "POST /auth/login": "Log in",
-                    "POST /auth/logout": "Log out",
-                    "GET /auth/me": "Get current user info"
-                },
-                "finance": {
-                    "GET /finance/dashboard": "Get financial dashboard",
-                    "POST /finance/transactions": "Create a transaction",
-                    "GET /finance/transactions": "List transactions",
-                    "POST /finance/budgets": "Create a budget",
-                    "GET /finance/budgets": "List budgets"
-                },
-                "ai": {
-                    "GET /ai/coach": "Get AI coach message",
-                    "POST /ai/ask": "Ask the AI coach a question"
-                },
-                "subscriptions": {
-                    "GET /subscriptions/plan": "Get current plan",
-                    "POST /subscriptions/upgrade": "Upgrade plan"
-                }
-            }
-        })
+    # Removed API index route to use frontend_bp
 
     # Create tables if they don't exist (dev convenience)
     with app.app_context():

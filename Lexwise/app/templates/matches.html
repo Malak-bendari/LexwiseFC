@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Matches - LexWise{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Investor Matches</h1>
+    <p>Meet the right investors, funds and partners for your next milestone.</p>
+    <div class="hero-buttons">
+        <button class="btn btn-primary" onclick="window.location.reload()">Refresh Matches</button>
+        <button class="btn btn-secondary" onclick="showHelpModal()">How it works</button>
+    </div>
+</div>
+
+<div class="section-header">
+    <h2>Recommended Partners</h2>
+</div>
+
+<div class="feature-grid">
+    <div class="feature-card">
+        <div class="feature-icon">A</div>
+        <h3>Angel Network</h3>
+        <p>Early-stage angels with sector experience and flexible terms.</p>
+        <span class="badge badge-accent">Match 94%</span>
+        <button class="btn btn-ghost">Connect</button>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">V</div>
+        <h3>VC Fund</h3>
+        <p>Growth capital matched to your traction and revenue profile.</p>
+        <span class="badge badge-secondary">Match 88%</span>
+        <button class="btn btn-ghost">View Profile</button>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">P</div>
+        <h3>Partner Studio</h3>
+        <p>Strategic partnerships for product, distribution, and advisory.</p>
+        <span class="badge badge-success">Match 81%</span>
+        <button class="btn btn-ghost">Invite</button>
+    </div>
+</div>
+
+<div class="section-header">
+    <h2>Match Feed</h2>
+</div>
+
+<div class="activity-list">
+    <div class="activity-item">
+        <div class="activity-status status-scanned"></div>
+        <div class="activity-info">
+            <h4>Bright Future Capital</h4>
+            <span>Sector: SaaS • Location: Paris, FR • Preferred check size €100K-€500K</span>
+        </div>
+        <div class="activity-score">93%</div>
+        <div class="activity-actions">
+            <button class="btn btn-ghost btn-small">Message</button>
+        </div>
+    </div>
+    <div class="activity-item">
+        <div class="activity-status status-warning"></div>
+        <div class="activity-info">
+            <h4>Blue Ocean Ventures</h4>
+            <span>Sector: Fintech • Location: Berlin, DE • Focus: product-market fit</span>
+        </div>
+        <div class="activity-score">87%</div>
+        <div class="activity-actions">
+            <button class="btn btn-ghost btn-small">Review</button>
+        </div>
+    </div>
+    <div class="activity-item">
+        <div class="activity-status status-approved"></div>
+        <div class="activity-info">
+            <h4>Nova Labs</h4>
+            <span>Sector: AI • Location: London, UK • Offers mentorship + capital</span>
+        </div>
+        <div class="activity-score">85%</div>
+        <div class="activity-actions">
+            <button class="btn btn-ghost btn-small">Connect</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

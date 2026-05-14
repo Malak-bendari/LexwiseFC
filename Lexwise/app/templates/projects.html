@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Projects - LexWise{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Your Projects</h1>
+    <p>Track progress, update briefs, and get investor-ready insights.</p>
+    <div class="hero-buttons">
+        <button class="btn btn-primary" onclick="window.location.href='{{ url_for('main.new_project') }}'">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            New Project
+        </button>
+        <button class="btn btn-secondary" onclick="window.location.href='{{ url_for('main.dashboard') }}'">Overview</button>
+    </div>
+</div>
+
+<div class="section-header">
+    <h2>Project Pipeline</h2>
+</div>
+
+{% if projects %}
+<div class="activity-list">
+    {% for project in projects %}
+    <div class="activity-item">
+        <div class="activity-status {% if project.status == 'approved' %}status-approved{% elif project.status == 'matched' %}status-warning{% else %}status-scanned{% endif %}"></div>
+        <div class="activity-info">
+            <h4>{{ project.title }}</h4>
+            <span>{{ project.description[:50] if project.description else 'No description available' }}… • {{ project.category or 'General' }}</span>
+        </div>
+        <div class="activity-score">{{ project.score or 0 }}%</div>
+        <div class="activity-actions">
+            <button class="btn btn-ghost btn-small" onclick="window.location.href='{{ url_for('main.view_project', project_id=project.id) }}'">View</button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="placeholder-panel">
+    <h3>No Projects Yet</h3>
+    <p>Launch your first idea and LexWise will start matching it with investors.</p>
+    <button class="btn btn-primary" onclick="window.location.href='{{ url_for('main.new_project') }}'">Create Project</button>
+</div>
+{% endif %}
+
+{% endblock %}

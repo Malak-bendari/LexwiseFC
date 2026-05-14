@@ -4,8 +4,11 @@ from flask_login import login_required, current_user
 from app.database.db import db
 from app.models.transaction import Transaction
 from app.models.budget import Budget
+from app.models.goal import Goal
+from app.models.investment import Investment
 from app.services.finance_service import FinanceService
 from app.services.recommendation_engine import RecommendationEngine
+from datetime import datetime
 
 finance_bp = Blueprint("finance", __name__)
 
@@ -184,4 +187,110 @@ def get_budgets():
             "month": b.month
         })
 
+    return jsonify(result)
+
+
+@finance_bp.route("/goals", methods=["POST"])
+@login_required
+def create_goal():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Request body must be JSON"}), 400
+
+    required_fields = ["name", "target_amount"]
+    for field in required_fields:
+        if field not in data or not str(data[field]).strip():
+            return jsonify({"error": f"Missing or empty field: {field}"}), 400
+
+    try:
+        target_amount = float(data["target_amount"])
+        if target_amount <= 0:
+            return jsonify({"error": "target_amount must be positive"}), 400
+    except (ValueError, TypeError):
+        return jsonify({"error": "Invalid target_amount value"}), 400
+
+    target_date = None
+    if "target_date" in data and data["target_date"]:
+        try:
+            target_date = datetime.fromisoformat(data["target_date"].replace('Z', '+00:00'))
+        except ValueError:
+            pass # ignore invalid date format for now
+
+    goal = Goal(
+        user_id=current_user.id,
+        name=data["name"].strip(),
+        target_amount=target_amount,
+        current_amount=float(data.get("current_amount", 0)),
+        target_date=target_date
+    )
+
+    db.session.add(goal)
+    db.session.commit()
+
+    return jsonify({"message": "Goal created successfully", "goal_id": goal.id}), 201
+
+
+@finance_bp.route("/goals", methods=["GET"])
+@login_required
+def get_goals():
+    goals = Goal.query.filter_by(user_id=current_user.id).all()
+    result = []
+    for g in goals:
+        result.append({
+            "id": g.id,
+            "name": g.name,
+            "target_amount": g.target_amount,
+            "current_amount": g.current_amount,
+            "target_date": g.target_date.isoformat() if g.target_date else None
+        })
+    return jsonify(result)
+
+
+@finance_bp.route("/investments", methods=["POST"])
+@login_required
+def create_investment():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Request body must be JSON"}), 400
+
+    required_fields = ["name", "asset_class", "amount_invested", "current_value"]
+    for field in required_fields:
+        if field not in data or not str(data[field]).strip():
+            return jsonify({"error": f"Missing or empty field: {field}"}), 400
+
+    try:
+        amount_invested = float(data["amount_invested"])
+        current_value = float(data["current_value"])
+    except (ValueError, TypeError):
+        return jsonify({"error": "Invalid amounts"}), 400
+
+    investment = Investment(
+        user_id=current_user.id,
+        name=data["name"].strip(),
+        symbol=data.get("symbol", "").strip() or None,
+        asset_class=data["asset_class"].strip(),
+        amount_invested=amount_invested,
+        current_value=current_value
+    )
+
+    db.session.add(investment)
+    db.session.commit()
+
+    return jsonify({"message": "Investment created successfully", "investment_id": investment.id}), 201
+
+
+@finance_bp.route("/investments", methods=["GET"])
+@login_required
+def get_investments():
+    investments = Investment.query.filter_by(user_id=current_user.id).all()
+    result = []
+    for i in investments:
+        result.append({
+            "id": i.id,
+            "name": i.name,
+            "symbol": i.symbol,
+            "asset_class": i.asset_class,
+            "amount_invested": i.amount_invested,
+            "current_value": i.current_value
+        })
     return jsonify(result)

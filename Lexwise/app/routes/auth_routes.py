@@ -11,12 +11,15 @@ auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.route("/register", methods=["POST"])
 def register():
-    data = request.get_json()
+    data = request.get_json(silent=True) or request.form.to_dict()
 
     if not data:
         return jsonify({"error": "Request body must be JSON"}), 400
 
-    required_fields = ["name", "email", "password"]
+    required_fields = ["email", "password"]
+    name = data.get("name") or data.get("username")
+    if not name:
+        return jsonify({"error": "Missing or empty field: name/username"}), 400
 
     for field in required_fields:
         if field not in data or not str(data[field]).strip():
@@ -50,7 +53,7 @@ def register():
         return jsonify({"error": "Invalid plan. Must be 'go' or 'premium'"}), 400
 
     user = User(
-        name=data["name"].strip(),
+        name=name.strip(),
         email=email,
         password_hash=generate_password_hash(data["password"]),
         monthly_income=monthly_income,
@@ -74,15 +77,22 @@ def register():
         db.session.rollback()
         return jsonify({"error": "Registration failed. Please try again."}), 500
 
-    return jsonify({
-        "message": "User registered successfully",
-        "user_id": user.id
-    }), 201
+    if request.is_json:
+        return jsonify({
+            "success": True,
+            "message": "User registered successfully",
+            "user_id": user.id
+        }), 201
+    
+    # Auto-login after registration and redirect
+    login_user(user)
+    from flask import redirect, url_for
+    return redirect(url_for("frontend.dashboard"))
 
 
 @auth_bp.route("/login", methods=["POST"])
 def login():
-    data = request.get_json()
+    data = request.get_json(silent=True) or request.form.to_dict()
 
     if not data:
         return jsonify({"error": "Request body must be JSON"}), 400
@@ -100,15 +110,20 @@ def login():
 
     login_user(user)
 
-    return jsonify({
-        "message": "Login successful",
-        "user": {
-            "id": user.id,
-            "name": user.name,
-            "email": user.email,
-            "plan": user.plan
-        }
-    })
+    if request.is_json:
+        return jsonify({
+            "success": True,
+            "message": "Login successful",
+            "user": {
+                "id": user.id,
+                "name": user.name,
+                "email": user.email,
+                "plan": user.plan
+            }
+        })
+    
+    from flask import redirect, url_for
+    return redirect(url_for("frontend.dashboard"))
 
 
 @auth_bp.route("/logout", methods=["POST"])
