@@ -13,7 +13,7 @@ frontend_bp = Blueprint("frontend", __name__)
 def index():
     if current_user.is_authenticated:
         return redirect(url_for("frontend.dashboard"))
-    return redirect(url_for("frontend.login_page"))
+    return render_template("base.html", force_fincoach=False)
 
 @frontend_bp.route("/login")
 def login_page():

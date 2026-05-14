@@ -3583,13 +3583,13 @@
       </div>
       <!-- Profile with slide menu -->
       <div class="profile-wrapper" id="profileWrapper">
-        <div class="user-avatar" onclick="toggleProfile(event)">A</div>
+        <div class="user-avatar" onclick="toggleProfile(event)">{{ user.name[0] if user else 'U' }}</div>
         <div class="profile-slide-menu" id="profileMenu">
           <div class="profile-slide-header">
-            <div class="avatar-large">A</div>
+            <div class="avatar-large">{{ user.name[0] if user else 'U' }}</div>
             <div class="info">
-              <h5>Alex Johnson</h5>
-              <span>alex@example.com</span>
+              <h5>{{ user.name if user else 'Guest' }}</h5>
+              <span>{{ user.email if user else '' }}</span>
             </div>
           </div>
           <div class="profile-slide-item" onclick="showLexPage('profile')">
@@ -3730,7 +3730,7 @@
         <div class="profile-header-card">
           <div class="profile-avatar-large">A</div>
           <div class="profile-header-info">
-            <h2>Alex Johnson</h2>
+            <h2>{{ user.name if user else 'Guest' }}</h2>
             <div class="role">Freelance Legal Consultant & Entrepreneur</div>
             <div class="stats-row">
               <div class="stat">
@@ -3771,11 +3771,11 @@
             <div class="profile-form-grid">
               <div class="profile-form-group">
                 <label>Full Name</label>
-                <input type="text" value="Alex Johnson" id="profName">
+                <input type="text" value="{{ user.name if user else '' }}" id="profName">
               </div>
               <div class="profile-form-group">
                 <label>Email Address</label>
-                <input type="email" value="alex@example.com" id="profEmail">
+                <input type="email" value="{{ user.email if user else '' }}" id="profEmail">
               </div>
               <div class="profile-form-group">
                 <label>Phone Number</label>
@@ -3791,11 +3791,11 @@
               </div>
               <div class="profile-form-group">
                 <label>Website</label>
-                <input type="url" value="https://alexjohnson.dev" id="profWebsite">
+                <input type="url" value="" id="profWebsite">
               </div>
               <div class="profile-form-group">
                 <label>LinkedIn</label>
-                <input type="url" value="https://linkedin.com/in/alexjohnson" id="profLinkedIn">
+                <input type="url" value="" id="profLinkedIn">
               </div>
             </div>
             <div style="margin-top: 24px;">
@@ -4396,10 +4396,10 @@
       </div>
       <!-- Profile with slide menu -->
       <div class="profile-wrapper" id="profileWrapper2">
-        <div class="user-avatar" onclick="toggleProfile2(event)">A</div>
+        <div class="user-avatar" onclick="toggleProfile2(event)">{{ user.name[0] if user else 'U' }}</div>
         <div class="profile-slide-menu" id="profileMenu2">
           <div class="profile-slide-header">
-            <div class="avatar-large">A</div>
+            <div class="avatar-large">{{ user.name[0] if user else 'U' }}</div>
             <div class="info">
               <h5>{% if user %}{{ user.name }}{% else %}Guest{% endif %}</h5>
               <span>{% if user %}{{ user.email }}{% endif %}</span>
@@ -4784,19 +4784,19 @@
             <h3>Quick Actions</h3>
           </div>
           <div class="quick-actions">
-            <div class="q-action" onclick="showToast('Add Transaction')\">
+            <div class="q-action" onclick="openAddTransactionModal()">
               <div class="icon">
                 <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               </div>
               <span>Add<br>Transaction</span>
             </div>
-            <div class="q-action" onclick="showToast('Set Goal')\">
+            <div class="q-action" onclick="openAddGoalModal()">
               <div class="icon">
                 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
               </div>
               <span>Set<br>Goal</span>
             </div>
-            <div class="q-action" onclick="showToast('Track Subscription')\">
+            <div class="q-action" onclick="openAddBudgetModal()">
               <div class="icon">
                 <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               </div>
@@ -4960,9 +4960,9 @@
     <div id="fin-profile" class="fincoach-page">
       <div class="profile-page-container">
         <div class="profile-header-card">
-          <div class="profile-avatar-large">A</div>
+          <div class="profile-avatar-large">{{ user.name[0] if user else 'U' }}</div>
           <div class="profile-header-info">
-            <h2>Alex Johnson</h2>
+            <h2>{{ user.name if user else 'Guest' }}</h2>
             <div class="role">Financially Active User & Budget Optimizer</div>
             <div class="stats-row">
               <div class="stat">
@@ -5002,11 +5002,11 @@
             <div class="profile-form-grid">
               <div class="profile-form-group">
                 <label>Full Name</label>
-                <input type="text" value="Alex Johnson" id="finProfName">
+                <input type="text" value="{{ user.name if user else '' }}" id="finProfName">
               </div>
               <div class="profile-form-group">
                 <label>Email Address</label>
-                <input type="email" value="alex@example.com" id="finProfEmail">
+                <input type="email" value="{{ user.email if user else '' }}" id="finProfEmail">
               </div>
               <div class="profile-form-group">
                 <label>Phone Number</label>
@@ -5870,7 +5870,7 @@
 
 <!-- ========== LEX CHATBOT ========== -->
 <div class="lex-chatbot" id="lexChatbot">
-  <div class="lex-tooltip">Hey Alex! I am Lex, your AI assistant. Ask me anything!</div>
+  <div class="lex-tooltip">Hey {{ user.name.split(' ')[0] if user else 'there' }}! I am Lex, your AI assistant. Ask me anything!</div>
   <div class="lex-robot" onclick="toggleLex()" id="lexRobot">
     <div class="lex-robot-antenna"></div>
     <div class="lex-robot-body">
@@ -5900,7 +5900,7 @@
       </div>
     </div>
     <div class="lex-chat-body" id="lexBody">
-      <div class="lex-message bot">Hey Alex! I am Lex, your intelligent assistant. I can help you analyze contracts, check your budget, score ideas, or navigate between LexWise and FinCoach. What do you need today?</div>
+      <div class="lex-message bot">Hey {{ user.name.split(' ')[0] if user else 'there' }}! I am Lex, your intelligent assistant. I can help you analyze contracts, check your budget, score ideas, or navigate between LexWise and FinCoach. What do you need today?</div>
     </div>
     <div class="lex-chat-input">
       <input type="text" id="lexInput" placeholder="Ask Lex anything..." onkeypress="if(event.key==='Enter')sendLex()">
@@ -6193,12 +6193,8 @@
       .then(data => {
         if (data.success) {
           showToast('Login successful!');
-          // Load user profile data
-          loadUserProfile();
-          // Show the app directly instead of redirecting
-          document.getElementById('authPage').classList.remove('active');
-          document.getElementById('lexwiseApp').classList.add('active');
-          showLexPage('home');
+          // Redirect to dashboard so all data loads from the server
+          window.location.href = '/dashboard';
         } else {
           showToast('Error: ' + (data.error || 'Login failed'));
         }
@@ -6228,12 +6224,8 @@
       .then(data => {
         if (data.success) {
           showToast('Account created! Logging in...');
-          // Load user profile data
-          loadUserProfile();
-          // Show the app directly instead of redirecting
-          document.getElementById('authPage').classList.remove('active');
-          document.getElementById('lexwiseApp').classList.add('active');
-          showLexPage('home');
+          // Redirect to dashboard so all data loads from the server
+          window.location.href = '/dashboard';
         } else {
           showToast('Error: ' + (data.error || 'Registration failed'));
         }
@@ -6893,47 +6885,35 @@
     body.appendChild(typingDiv);
     body.scrollTop = body.scrollHeight;
 
-    setTimeout(() => {
+    fetch('/ai/ask', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ question: msg })
+    })
+    .then(r => r.json())
+    .then(data => {
       typingDiv.remove();
       robot.classList.remove('talking');
+      
       const botDiv = document.createElement('div');
       botDiv.className = 'lex-message bot';
-
-      const responses = [
-        "I analyzed your spending pattern - you are 18% under budget this month. Great job!",
-        "Your idea originality score is 94%. I found 2 similar patents but yours has unique positioning.",
-        "I matched you with 3 investors in the fintech space. Budget range: $25K-$80K. Want profiles?",
-        "That non-compete clause is too broad. Here is a safer version you can copy-paste...",
-        "Your financial health score is 67/100. Focus on increasing your savings rate to boost it.",
-        "I am detecting unusual spending in Dining Out - 23% over your dynamic budget. Want me to rebalance?",
-        "You can switch to LexWise anytime by clicking 'Try LexWise' in the navbar. Your data syncs automatically!",
-        "Your emergency fund goal is 65% complete. At this rate, you will reach it by December 2026."
-      ];
-
-      let response = responses[Math.floor(Math.random() * responses.length)];
-      if (msg.toLowerCase().includes('switch') || msg.toLowerCase().includes('lexwise')) {
-        response = "You can switch to LexWise by clicking the 'Try LexWise' button in the top navbar. All your data stays synced!";
-      } else if (msg.toLowerCase().includes('budget') || msg.toLowerCase().includes('spend')) {
-        response = "You have spent $2,450 this month out of $2,500 budget. You are on track! Your biggest category is Housing at 35%.";
-      } else if (msg.toLowerCase().includes('contract') || msg.toLowerCase().includes('legal')) {
-        response = "I can help analyze contracts in LexWise. Switch to LexWise and upload any contract for AI-powered fairness scoring.";
-      } else if (msg.toLowerCase().includes('invest') || msg.toLowerCase().includes('stock')) {
-        response = "Your investment portfolio is up 14.2% this quarter. I recommend diversifying into ETFs for Q3 2026.";
-      } else if (msg.toLowerCase().includes('credit') || msg.toLowerCase().includes('buy')) {
-        response = "You have 45 credits remaining. You can buy more credits from the Billing page. The Pro package (500 credits for $29) is the most popular choice.";
-      } else if (msg.toLowerCase().includes('profile')) {
-        response = "You can view and edit your profile by clicking your avatar in the top right corner and selecting 'Profile'.";
-      } else if (msg.toLowerCase().includes('notification')) {
-        response = "You have 3 unread notifications. Click the bell icon to see them, or go to the full Notifications page to manage all alerts.";
-      }
-
-      botDiv.textContent = response;
+      botDiv.innerHTML = (data.answer || data.error || 'Sorry, I encountered an error.').replace(/\n/g, '<br>');
       body.appendChild(botDiv);
       body.scrollTop = body.scrollHeight;
-
+      
       robot.classList.add('talking');
       setTimeout(() => robot.classList.remove('talking'), 1500);
-    }, 1200);
+    })
+    .catch(err => {
+      typingDiv.remove();
+      robot.classList.remove('talking');
+      
+      const botDiv = document.createElement('div');
+      botDiv.className = 'lex-message bot';
+      botDiv.textContent = 'Connection error: ' + err.message;
+      body.appendChild(botDiv);
+      body.scrollTop = body.scrollHeight;
+    });
   }
 
   // Close chat when clicking outside

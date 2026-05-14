@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect, url_for
 from flask_login import LoginManager
 from flask_migrate import Migrate  # pyrefly: ignore
 from dotenv import load_dotenv
@@ -12,7 +12,7 @@ login_manager = LoginManager()
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    return jsonify({"error": "Authentication required"}), 401
+    return redirect("/")
 
 
 def create_app(config_class=Config):
