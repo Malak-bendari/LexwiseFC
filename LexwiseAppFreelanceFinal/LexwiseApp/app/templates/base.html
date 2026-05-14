@@ -1,0 +1,3597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexWise - Intelligent Platform</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cline x1='75' y1='20' x2='25' y2='80' stroke='%2300d4aa' stroke-width='8' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='50' r='10' fill='%2300d4aa'/%3E%3C/svg%3E">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<!-- ========== WELCOME PAGE ========== -->
+<div class="welcome-page" id="welcomePage">
+    <div class="welcome-header">
+        <h1>LEXWISE ECOSYSTEM</h1>
+        <p>Choose your path. One platform, infinite possibilities.</p>
+    </div>
+    <div class="welcome-cards">
+        <div class="welcome-card lexwise" onclick="selectService('lexwise')">
+            <div class="welcome-card-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+            <h2>LexWise</h2>
+            <p>Protect your ideas, analyze contracts, and match with investors.</p>
+            <button class="welcome-card-btn">Enter LexWise</button>
+        </div>
+        <div class="welcome-card fincoach" onclick="selectService('fincoach')">
+            <div class="welcome-card-icon"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <h2>FinCoach</h2>
+            <p>Your AI financial coach. Dynamic budgets, smart savings.</p>
+            <button class="welcome-card-btn">Enter FinCoach</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== AUTH PAGE ========== -->
+<div class="auth-page" id="authPage">
+    <div class="auth-container">
+        <div class="auth-logo"><div class="logo-icon"></div><span id="authLogoText">LexWise</span></div>
+        
+        <div class="flip-container">
+            <div class="flipper" id="authFlipper">
+                
+                <!-- LOGIN FORM -->
+                <div class="flip-front">
+                    <h3 class="auth-title">Welcome Back</h3>
+                    <div class="form-group"><label>Email</label><input type="email" placeholder="alex@example.com" id="loginEmail" class="auth-input"></div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" placeholder="Enter your password" id="loginPassword" class="auth-input">
+                            <button type="button" class="toggle-password" onclick="togglePassword('loginPassword', this)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div style="text-align: right; margin-top: 5px;">
+                            <a href="javascript:void(0)" onclick="showForgotPasswordModal()" style="color: var(--teal); font-size: 0.7rem; text-decoration: none;">
+                                Forgot password?
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn-auth" onclick="handleLogin()">Sign In</button>
+                    <div class="auth-switch"><span>Don't have an account?</span><a href="javascript:void(0)" onclick="switchAuthTab('register')">Sign Up</a></div>
+                </div>
+                
+                <!-- REGISTER FORM -->
+                <div class="flip-back">
+                    <h3 class="auth-title">Create Account</h3>
+                    <div class="form-group"><label>Username</label><input type="text" placeholder="alex123" id="regUsername" class="auth-input"></div>
+                    <div class="form-group"><label>Full Name</label><input type="text" placeholder="Alex Johnson" id="regName" class="auth-input"></div>
+                    <div class="form-group"><label>Email</label><input type="email" placeholder="alex@example.com" id="regEmail" class="auth-input"></div>
+                    <div class="form-group"><label>Password</label><div class="password-wrapper"><input type="password" placeholder="Create a password" id="regPassword" class="auth-input"><button type="button" class="toggle-password" onclick="togglePassword('regPassword', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+                    <div class="form-group"><label>Confirm Password</label><div class="password-wrapper"><input type="password" placeholder="Confirm your password" id="regConfirmPassword" class="auth-input"><button type="button" class="toggle-password" onclick="togglePassword('regConfirmPassword', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+                    <div class="form-group"><label>I am a...</label><div class="profile-radio-group"><label class="profile-radio-option"><input type="radio" name="profileType" value="freelancer"><span>💼 Freelancer</span></label><label class="profile-radio-option"><input type="radio" name="profileType" value="investor"><span>💰 Investor</span></label></div></div>
+                    <button class="btn-auth" onclick="handleRegister()">Create Account</button>
+                    <div class="auth-switch"><span>Already have an account?</span><a href="javascript:void(0)" onclick="switchAuthTab('login')">Sign In</a></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="auth-divider"><span></span><span>or continue with</span><span></span></div>
+        
+        <div class="auth-oauth">
+            <button class="oauth-google" onclick="alert('Google OAuth coming soon')"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg><span>Google</span></button>
+            <button class="oauth-linkedin" onclick="alert('LinkedIn OAuth coming soon')"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z" fill="#0A66C2"/></svg><span>LinkedIn</span></button>
+        </div>
+        
+        <div class="auth-back" onclick="backToWelcome()"><svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><span>Back to services</span></div>
+    </div>
+</div>
+
+<!-- ========== LEXWISE APP ========== -->
+<div class="app-shell" id="lexwiseApp">
+    <nav class="navbar">
+        <div class="logo" onclick="showLexPage('home')"><div class="logo-icon"></div>LexWise</div>
+        <ul class="nav-links">
+            <li><a class="active" onclick="showLexPage('home')">Dashboard</a></li>
+            <li><a onclick="showLexPage('projects')">Projects</a></li>
+            <li><a onclick="showLexPage('contracts')">Contracts</a></li>
+            <li><a onclick="showLexPage('matches')">Matches</a></li>
+            <li><a onclick="showLexPage('messages')">Messages</a></li>
+        </ul>
+        <div class="nav-right">
+            <div class="service-switcher" onclick="switchToService('fincoach')"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Try FinCoach</div>
+            <div class="notification-wrapper">
+                <div class="notification-bell" onclick="toggleNotif(event)">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                    <div class="notification-dot" style="display: none;"></div>
+                </div>
+                <div class="notification-dropdown" id="notifDropdown">
+                    <div class="notification-dropdown-header">
+                        <h4>Notifications</h4>
+                        <span onclick="markAllNotificationsRead()" style="cursor:pointer; font-size:12px;">Mark all read</span>
+                    </div>
+                    <div id="notificationsList" class="notifications-list">
+                        <div style="padding:20px; text-align:center; color:var(--text-muted);">Loading...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-wrapper"><div class="user-avatar" id="navAvatar" onclick="toggleProfile(event)">A</div>
+                <div class="profile-slide-menu" id="profileMenu">
+                    <div class="profile-slide-header"><div class="avatar-large" id="profileAvatarLetter">A</div><div class="info"><h5 id="profileUserName">User</h5><span id="profileUserEmail">user@example.com</span><div><span id="profileTypeBadge" style="display:inline-block;margin-top:4px;padding:2px 8px;background:var(--teal-dim);border-radius:12px;font-size:10px;"></span></div></div></div>
+                    <div class="profile-slide-item" onclick="showProfileModal()"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</div>
+                    <div class="profile-slide-item" onclick="showSettingsModal()">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        Settings
+                    </div>
+                    
+                    <div class="profile-slide-item" onclick="showChangePasswordModal()">
+                        <svg viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2zm10-10V7a4 4 0 0 0-8 0v4h8z"/></svg>
+                        Change Password
+                    </div>
+                    <!-- In the profile-slide-menu div, add this after the divider -->
+                    <div class="profile-slide-divider"></div>
+                    <div class="profile-subscription-section">
+                        <div class="profile-subscription-title">📋 Subscription Plans</div>
+                        <div class="profile-subscription-list">
+                            <div class="profile-subscription-item free" onclick="showToast('Free plan selected', 'info')">
+                                <div class="sub-icon">🆓</div>
+                                <div class="sub-info">
+                                    <div class="sub-name">Free Plan</div>
+                                    <div class="sub-price">$0/month</div>
+                                </div>
+                                <div class="sub-badge">Current</div>
+                            </div>
+                            <div class="profile-subscription-item pro" onclick="showToast('Upgrade to Pro', 'info')">
+                                <div class="sub-icon">💎</div>
+                                <div class="sub-info">
+                                    <div class="sub-name">Pro Plan</div>
+                                    <div class="sub-price">$19/month</div>
+                                </div>
+                                <div class="sub-badge pro">Popular</div>
+                            </div>
+                            <div class="profile-subscription-item business" onclick="showToast('Contact sales for Business plan', 'info')">
+                                <div class="sub-icon">🏢</div>
+                                <div class="sub-info">
+                                    <div class="sub-name">Business Plan</div>
+                                    <div class="sub-price">$49/month</div>
+                                </div>
+                                <div class="sub-badge business">Best Value</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-slide-divider"></div>
+                    <div class="profile-slide-item" onclick="showHelpModal()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Help</div>
+                    <div class="profile-slide-item logout" onclick="handleLogout()"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main-content" id="lexwiseContent">
+        <div id="lex-home" class="page active">
+            <!-- Hero Section -->
+            <div class="hero">
+                <h1 id="heroTitle">Your ideas. Protected. Matched. Signed.</h1>
+                <p id="heroText">LexWise scans, scores, and secures your next move. AI-powered contract analysis, smart investor matching, and idea protection - all in one place.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="openUploadProject()" id="uploadBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        Upload Project
+                    </button>
+                    <button class="btn btn-secondary" onclick="openUploadContract()" id="analyzeBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        Analyze Contract
+                    </button>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <div class="feature-card" onclick="alert('Idea Check: AI scans originality, detects weaknesses')">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M17.636 17.636l-.707-.707M12 21v-1M6.343 17.636l.707-.707M3 12h1M6.343 6.343l.707.707M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg></div>
+                    <h3>Idea Check</h3>
+                    <p>AI originality scan + automatic weakness detection and improvement suggestions.</p>
+                </div>
+                <div class="feature-card" onclick="alert('Smart Match: AI matches you with vetted investors')">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                    <h3>Smart Match</h3>
+                    <p>Get matched with entrepreneurs and investors aligned with your preferences.</p>
+                </div>
+                <div class="feature-card" onclick="alert('Contract Score: AI analyzes clauses, gives fairness score')">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+                    <h3>Contract Score</h3>
+                    <p>Fairness analysis out of 100. Dangerous clauses highlighted before you sign.</p>
+                </div>
+                <div class="feature-card" onclick="alert('Negotiate: AI generates copy-paste renegotiation scripts')">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+                    <h3>Negotiate</h3>
+                    <p>Copy-paste renegotiation scripts for unfair clauses - no lawyer needed.</p>
+                </div>
+            </div>
+
+            <!-- Recent Activity Section -->
+            <div class="section-header">
+                <h2>Recent Activity</h2>
+                <span style="color: var(--text-muted); font-size: 0.8rem;">Last 7 days</span>
+            </div>
+            <div id="recentActivityList" class="activity-list">
+                <div class="placeholder-panel">
+                    <p>No recent activity. Upload a project or contract to get started!</p>
+                </div>
+            </div>
+            <!-- Subscription Plans Section - After Recent Activity -->
+            <div class="section-header" style="margin-top: 40px;">
+                <h2>🎯 Subscription Plans</h2>
+                <span style="color: var(--text-muted); font-size: 0.8rem;">Choose the perfect plan for you</span>
+            </div>
+
+            <div class="plans-grid">
+                <div class="plan-card free">
+                    <div class="plan-icon">🆓</div>
+                    <h3 class="plan-name">Free Plan</h3>
+                    <div class="plan-price">$0<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li>✓ 3 Project Uploads</li>
+                        <li>✓ 3 Contract Uploads</li>
+                        <li>✓ Basic AI Analysis</li>
+                        <li>✓ Standard Matching</li>
+                        <li>✓ Email Support</li>
+                    </ul>
+                    <button class="plan-btn" onclick="showToast('You are on the Free plan', 'info')">Current Plan</button>
+                </div>
+
+                <div class="plan-card pro">
+                    <div class="plan-icon">💎</div>
+                    <div class="popular-badge">🔥 MOST POPULAR</div>
+                    <h3 class="plan-name">Pro Plan</h3>
+                    <div class="plan-price">$19<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li>✓ Unlimited Projects</li>
+                        <li>✓ Unlimited Contracts</li>
+                        <li>✓ Advanced AI Analysis</li>
+                        <li>✓ Priority Matching</li>
+                        <li>✓ Priority Support</li>
+                        <li>✓ Export Data (CSV/PDF)</li>
+                    </ul>
+                    <button class="plan-btn" onclick="showToast('Upgrade to Pro plan', 'info')">Upgrade Now</button>
+                </div>
+
+                <div class="plan-card vip">
+                    <div class="plan-icon">👑</div>
+                    <div class="popular-badge vip">🌟 BEST VALUE</div>
+                    <h3 class="plan-name">VIP Plan</h3>
+                    <div class="plan-price">$49<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li>✓ Everything in Pro</li>
+                        <li>✓ API Access</li>
+                        <li>✓ Team Accounts (5 users)</li>
+                        <li>✓ Dedicated Account Manager</li>
+                        <li>✓ Custom Integration</li>
+                        <li>✓ 24/7 Priority Support</li>
+                    </ul>
+                    <button class="plan-btn" onclick="showToast('Contact sales for VIP plan', 'info')">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+        <!-- PROJECTS PAGE -->
+        <div id="lex-projects" class="page">
+            <div class="section-header">
+                <h2>My Projects</h2>
+                <button class="btn btn-primary btn-small" onclick="openUploadProject()">+ New Project</button>
+            </div>
+            <div id="projectsListPage" class="activity-list">
+                <div class="placeholder-panel">
+                    <p>Loading your projects...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTRACTS PAGE -->
+        <div id="lex-contracts" class="page">
+            <div class="section-header">
+                <h2>My Contracts</h2>
+                <button class="btn btn-primary btn-small" onclick="openUploadContract()">+ New Contract</button>
+            </div>
+            <div id="contractsListPage" class="activity-list">
+                <div class="placeholder-panel">
+                    <p>Loading your contracts...</p>
+                </div>
+            </div>
+        </div>
+        <div id="lex-matches" class="page">
+            <div class="section-header">
+                <h2 id="matchesTitle">🤝 Investor Matches</h2>
+                <button class="btn btn-ghost btn-small" onclick="refreshMatches()" id="refreshMatchesBtn">🔄 Refresh</button>
+            </div>
+
+            
+            <!-- Loading state -->
+            <div id="matchesLoading" class="placeholder-panel" style="display: none;">
+                <p>🔍 Finding your best matches...</p>
+            </div>
+            
+            <!-- Freelancer View (shows investors) -->
+            <div id="freelancerMatchesView">
+                <div class="stats-grid" style="margin-bottom: 20px;">
+                    <div class="stat-card">
+                        <div>🎯</div>
+                        <h3 id="totalMatches">0</h3>
+                        <p>Potential Matches</p>
+                    </div>
+                    <div class="stat-card">
+                        <div>⭐</div>
+                        <h3 id="avgMatchScore">0</h3>
+                        <p>Avg Match Score</p>
+                    </div>
+                    <div class="stat-card">
+                        <div>💰</div>
+                        <h3 id="totalBudget">$0</h3>
+                        <p>Total Investment Pool</p>
+                    </div>
+                </div>
+                <div id="investorMatchesList" class="activity-list">
+                    <div class="placeholder-panel">
+                        <p>📊 Upload a project to see matching investors!</p>
+                        <button class="btn btn-primary btn-small" onclick="openUploadProject()" style="margin-top: 10px;">+ Upload a Project</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Investor View (shows projects) -->
+            <div id="investorMatchesView" style="display: none;">
+                <div class="stats-grid" style="margin-bottom: 20px;">
+                    <div class="stat-card">
+                        <div>🚀</div>
+                        <h3 id="investorProjectCount">0</h3>
+                        <p>Projects Available</p>
+                    </div>
+                    <div class="stat-card">
+                        <div>⭐</div>
+                        <h3 id="investorAvgScore">0</h3>
+                        <p>Avg Project Score</p>
+                    </div>
+                    <div class="stat-card">
+                        <div>💰</div>
+                        <h3 id="investorAvgBudget">$0</h3>
+                        <p>Avg Budget</p>
+                    </div>
+                </div>
+                <div id="projectMatchesList" class="activity-list">
+                    <div class="placeholder-panel">
+                        <p>🔍 Browse projects from talented freelancers!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="lex-messages" class="page">
+            <div class="section-header">
+                <h2>💬 Messages</h2>
+                <button class="btn btn-ghost btn-small" onclick="loadMessages()">🔄 Refresh</button>
+            </div>
+            
+            <div class="stats-grid" style="margin-bottom: 20px;">
+                <div class="stat-card">
+                    <div>💬</div>
+                    <h3 id="unreadCount">0</h3>
+                    <p>Unread Messages</p>
+                </div>
+                <div class="stat-card">
+                    <div>🤝</div>
+                    <h3 id="activeChats">0</h3>
+                    <p>Active Chats</p>
+                </div>
+                <div class="stat-card">
+                    <div>📅</div>
+                    <h3 id="lastMessage">-</h3>
+                    <p>Last Activity</p>
+                </div>
+            </div>
+            
+            <div id="conversationsList" class="activity-list">
+                <div class="placeholder-panel">
+                    <p>💬 No messages yet. Connect with investors or freelancers to start chatting!</p>
+                    <button class="btn btn-primary btn-small" onclick="showLexPage('matches')" style="margin-top: 10px;">🤝 Find Matches</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ========== FINCOACH APP ========== -->
+<div class="app-shell" id="fincoachApp">
+    <nav class="navbar"><div class="logo" onclick="alert('FinCoach')"><div class="logo-icon-fc"></div>FinCoach</div><ul class="nav-links"><li><a class="active">Dashboard</a></li></ul><div class="nav-right"><div class="service-switcher" onclick="switchToService('lexwise')"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>Try LexWise</div></div></nav>
+    <div class="main-content"><div class="placeholder-panel"><h3>FinCoach Dashboard</h3><p>Your AI financial coach - Coming soon!</p><button class="btn btn-primary" onclick="switchToService('lexwise')">Back to LexWise</button></div></div>
+</div>
+
+<!-- ========== LEX CHATBOT ========== -->
+<div class="lex-chatbot" id="lexChatbot" style="display: none;">
+    <div class="lex-tooltip" id="lexTooltip">Hey! Ask me anything</div>
+    <div class="lex-robot" onclick="toggleLex()" id="lexRobot">
+        <div class="lex-robot-antenna"></div><div class="lex-robot-body"><div class="lex-robot-face"><div class="lex-eye left"></div><div class="lex-eye right"></div><div class="lex-mouth"></div></div></div>
+        <div class="lex-robot-arms"><div class="lex-arm left"></div><div class="lex-arm right"></div></div>
+    </div>
+    <div class="lex-chat" id="lexChat">
+        <div class="lex-chat-header"><div class="robot-mini">...</div><div><h4>Lex</h4><div class="status">Online</div></div><button onclick="toggleVoiceMute()" style="background:transparent;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;"><span id="voiceIcon">🔊</span></button></div>
+        <div class="lex-chat-body" id="lexBody"><div class="lex-message bot" id="lexWelcomeMessage">Hey! I'm Lex. Let me personalize my introduction...</div></div>
+        <div class="lex-chat-input"><input type="text" id="lexInput" placeholder="Ask Lex..."><button onclick="sendLex()">Send</button></div>
+    </div>
+</div>
+
+<script>
+// ========== MULTILINGUAL TRANSLATIONS ==========
+const translations = {
+    en: {
+        heroTitle: "Your ideas. Protected. Matched. Signed.",
+        heroText: "LexWise scans, scores, and secures your next move.",
+        upload: "Upload Project",
+        analyze: "Analyze Contract",
+        projects: "Projects",
+        matches: "Matches",
+        score: "Avg Score",
+        projectsHeader: "My Projects",
+        matchesHeader: "Recommended Matches",
+        noProjects: "No projects yet. Click \"Upload Project\" to get started!",
+        noMatches: "Upload a project to see matching investors",
+        settings_saved: "Settings saved successfully!",
+        voice_enabled: "Voice enabled 🔊",
+        voice_disabled: "Voice disabled 🔇",
+        profile: "Profile",
+        settings: "Settings",
+        help: "Help Center",
+        logout: "Log Out",
+        theme: "Theme",
+        dark: "Dark Mode",
+        light: "Light Mode",
+        system: "System Default",
+        language: "Language",
+        english: "English",
+        french: "Français",
+        voiceGender: "Lex's Voice",
+        voiceFemale: "👩 Female",
+        voiceMale: "👨 Male",
+        speechRate: "Speech Rate",
+        speechPitch: "Speech Pitch"
+    },
+    fr: {
+        heroTitle: "Vos idées. Protégées. Matchées. Signées.",
+        heroText: "LexWise scanne, évalue et sécurise votre prochaine étape.",
+        upload: "Télécharger un Projet",
+        analyze: "Analyser un Contrat",
+        projects: "Projets",
+        matches: "Correspondances",
+        score: "Score Moyen",
+        projectsHeader: "Mes Projets",
+        matchesHeader: "Correspondances Recommandées",
+        noProjects: "Aucun projet pour le moment. Cliquez sur \"Télécharger un Projet\" pour commencer!",
+        noMatches: "Téléchargez un projet pour voir les investisseurs correspondants",
+        settings_saved: "Paramètres enregistrés avec succès!",
+        voice_enabled: "Voix activée 🔊",
+        voice_disabled: "Voix désactivée 🔇",
+        profile: "Profil",
+        settings: "Paramètres",
+        help: "Centre d'Aide",
+        logout: "Déconnexion",
+        theme: "Thème",
+        dark: "Mode Sombre",
+        light: "Mode Clair",
+        system: "Défaut Système",
+        language: "Langue",
+        english: "Anglais",
+        french: "Français",
+        voiceGender: "Voix de Lex",
+        voiceFemale: "👩 Femme",
+        voiceMale: "👨 Homme",
+        speechRate: "Vitesse",
+        speechPitch: "Hauteur"
+    }
+};
+
+let currentLanguage = localStorage.getItem('language') || 'en';
+let currentTheme = localStorage.getItem('theme') || 'dark';
+let voiceGender = localStorage.getItem('voiceGender') || 'female';
+let speechRate = parseFloat(localStorage.getItem('speechRate')) || 0.9;
+let speechPitch = parseFloat(localStorage.getItem('speechPitch')) || 1.0;
+let voiceEnabled = true;
+let currentUser = null;
+let currentUserProfile = null;
+let lexOpen = false;
+
+function getText(key) {
+    return translations[currentLanguage]?.[key] || translations.en[key];
+}
+
+function applyLanguage() {
+    document.getElementById('heroTitle').innerText = getText('heroTitle');
+    document.getElementById('heroText').innerText = getText('heroText');
+    document.getElementById('uploadBtn').innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> ${getText('upload')}`;
+    document.getElementById('analyzeBtn').innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> ${getText('analyze')}`;
+    document.getElementById('projectsLabel').innerText = getText('projects');
+    document.getElementById('matchesLabel').innerText = getText('matches');
+    document.getElementById('scoreLabel').innerText = getText('score');
+    document.getElementById('projectsHeader').innerText = getText('projectsHeader');
+    document.getElementById('matchesHeader').innerText = getText('matchesHeader');
+    document.getElementById('newProjectBtn').innerHTML = `+ ${getText('upload')}`;
+    document.getElementById('refreshMatchesBtn').innerText = getText('matches');
+    if (document.getElementById('noProjectsMsg')) document.getElementById('noProjectsMsg').innerText = getText('noProjects');
+    if (document.getElementById('noMatchesMsg')) document.getElementById('noMatchesMsg').innerText = getText('noMatches');
+    setLexWelcomeMessage();
+}
+
+// ========== THEME ==========
+function applyTheme(theme) {
+    const body = document.body;
+    body.classList.remove('light-mode', 'dark-mode');
+    if (theme === 'light') {
+        body.classList.add('light-mode');
+    } else if (theme === 'dark') {
+        body.classList.add('dark-mode');
+    } else if (theme === 'system') {
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        body.classList.add(isDark ? 'dark-mode' : 'light-mode');
+    }
+    localStorage.setItem('theme', theme);
+    currentTheme = theme;
+}
+
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+}
+
+// ========== VOICE OUTPUT ==========
+let voicesLoaded = false;
+let availableVoices = [];
+
+function loadVoices() {
+    if ('speechSynthesis' in window) {
+        availableVoices = window.speechSynthesis.getVoices();
+        voicesLoaded = true;
+        console.log("Voices loaded:", availableVoices.length);
+    }
+}
+
+function getPreferredVoice() {
+    if (!voicesLoaded) loadVoices();
+    
+    const savedVoiceGender = localStorage.getItem('voiceGender') || 'female';
+    const currentLang = localStorage.getItem('language') || 'en';
+    
+    let filteredVoices = availableVoices;
+    if (currentLang === 'fr') {
+        filteredVoices = availableVoices.filter(v => v.lang === 'fr-FR');
+        if (filteredVoices.length === 0) filteredVoices = availableVoices.filter(v => v.lang === 'en-US' || v.lang === 'en-GB');
+    } else {
+        filteredVoices = availableVoices.filter(v => v.lang === 'en-US' || v.lang === 'en-GB' || v.lang === 'en-AU');
+    }
+    
+    let targetVoice = null;
+    if (savedVoiceGender === 'male') {
+        const maleNames = ['george', 'william', 'paul', 'darren', 'duncan', 'ken', 'neil', 'tim', 'jonas', 'florian', 'conrad', 'bernd', 'christoph', 'kasper', 'killian', 'klaus', 'ralf', 'male', 'man', 'boy'];
+        targetVoice = filteredVoices.find(v => maleNames.some(name => v.name.toLowerCase().includes(name)));
+        if (!targetVoice && currentLang === 'fr') targetVoice = filteredVoices.find(v => v.name === 'Microsoft Paul - French (France)');
+        if (!targetVoice && currentLang === 'en') targetVoice = filteredVoices.find(v => v.name === 'Microsoft George - English (United Kingdom)');
+    } else {
+        const femaleNames = ['hortense', 'julie', 'hazel', 'susan', 'katja', 'elsie', 'freya', 'joanne', 'kim', 'female', 'woman', 'girl'];
+        targetVoice = filteredVoices.find(v => femaleNames.some(name => v.name.toLowerCase().includes(name)));
+        if (!targetVoice && currentLang === 'fr') targetVoice = filteredVoices.find(v => v.name === 'Microsoft Hortense - French (France)');
+        if (!targetVoice && currentLang === 'en') targetVoice = filteredVoices.find(v => v.name === 'Microsoft Hazel - English (United Kingdom)');
+    }
+    
+    if (!targetVoice && filteredVoices.length > 0) targetVoice = filteredVoices[0];
+    if (!targetVoice && availableVoices.length > 0) targetVoice = availableVoices[0];
+    
+    console.log("Selected voice:", targetVoice?.name);
+    return targetVoice;
+}
+
+function speakText(text) {
+    if (!voiceEnabled) return;
+    if (!('speechSynthesis' in window)) return;
+    
+    window.speechSynthesis.cancel();
+    const cleanText = text.replace(/\*\*/g, '').replace(/[📊🤝⚖️💡🔍💰📋📈💼🎯🚀✨⭐🔍🎯]/g, '');
+    if (!cleanText.trim()) return;
+    
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.rate = parseFloat(localStorage.getItem('speechRate')) || 0.9;
+    utterance.pitch = parseFloat(localStorage.getItem('speechPitch')) || 1.0;
+    utterance.volume = 1.0;
+    utterance.lang = currentLanguage === 'fr' ? 'fr-FR' : 'en-US';
+    
+    const preferredVoice = getPreferredVoice();
+    if (preferredVoice) utterance.voice = preferredVoice;
+    
+    window.speechSynthesis.speak(utterance);
+}
+
+function toggleVoiceMute() {
+    voiceEnabled = !voiceEnabled;
+    const icon = document.getElementById('voiceIcon');
+    if (icon) icon.textContent = voiceEnabled ? '🔊' : '🔇';
+    if (!voiceEnabled) window.speechSynthesis.cancel();
+}
+
+// ========== API CONFIGURATION ==========
+const API_BASE = '/api';
+
+async function apiCall(endpoint, method, data) {
+    const response = await fetch(`${API_BASE}${endpoint}`, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: data ? JSON.stringify(data) : undefined
+    });
+    return response.json();
+}
+
+// ========== CHATBOT VISIBILITY ==========
+function showChatbot() {
+    const chatbot = document.getElementById('lexChatbot');
+    if (chatbot) chatbot.style.display = 'block';
+}
+
+function hideChatbot() {
+    const chatbot = document.getElementById('lexChatbot');
+    if (chatbot) chatbot.style.display = 'none';
+}
+
+// ========== AUTHENTICATION ==========
+async function handleLogin() {
+    const email = document.getElementById('loginEmail')?.value;
+    const password = document.getElementById('loginPassword')?.value;
+    if (!email || !password) {
+        showToast('Please enter email and password', 'warning');
+        return;
+    }
+    
+    try {
+        const result = await apiCall('/auth/login', 'POST', { email, password });
+        if (result.success) {
+            currentUser = result.user;
+            currentUserProfile = currentUser.profile_type;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            document.getElementById('authPage').classList.remove('active');
+            document.getElementById('welcomePage').style.display = 'none';
+            document.getElementById('lexwiseApp').classList.add('active');
+            updateProfileUI();
+            loadProjects();
+            loadContracts();
+            setLexWelcomeMessage();
+            showChatbot();
+            
+            // ========== ADD THIS LINE HERE ==========
+            startNotificationPolling();  // ← ADD THIS LINE
+            // =======================================
+            
+            showSuccessModal('Welcome Back!', `Hello ${currentUser.username}, you have successfully logged in.`);
+        } else {
+            showToast(result.error || 'Login failed', 'error');
+        }
+    } catch(e) { 
+        showToast('Login failed. Please try again.', 'error');
+    }
+}
+async function handleRegister() {
+    const username = document.getElementById('regUsername')?.value;
+    const email = document.getElementById('regEmail')?.value;
+    const password = document.getElementById('regPassword')?.value;
+    const confirm = document.getElementById('regConfirmPassword')?.value;
+    const profileType = document.querySelector('input[name="profileType"]:checked')?.value;
+    
+    if (!username || !email || !password) { alert('Please fill all fields'); return; }
+    if (password !== confirm) { alert('Passwords do not match'); return; }
+    if (password.length < 6) { alert('Password must be at least 6 characters'); return; }
+    if (!profileType) { alert('Please select Freelancer or Investor'); return; }
+    
+    try {
+        const result = await apiCall('/auth/register', 'POST', { username, email, password, profile_type: profileType });
+        if (result.success) {
+            currentUser = result.user;
+            currentUserProfile = currentUser.profile_type;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            document.getElementById('authPage').classList.remove('active');
+            document.getElementById('welcomePage').style.display = 'none';
+            document.getElementById('lexwiseApp').classList.add('active');
+            updateProfileUI();
+            setLexWelcomeMessage();
+            showChatbot();
+            
+            // ========== ADD THIS LINE HERE ==========
+            startNotificationPolling();  // ← ADD THIS LINE
+            // =======================================
+            
+            showSuccessModal('Welcome!', `Hello ${username}, you have successfully registered.`);
+        } else alert(result.error);
+    } catch(e) { alert('Registration failed'); }
+}
+
+async function handleLogout() {
+    // ========== ADD THIS LINE FIRST ==========
+    stopNotificationPolling();  // ← ADD THIS LINE
+    // ========================================
+    
+    try { await apiCall('/auth/logout', 'POST'); } catch(e) {}
+    currentUser = null;
+    currentUserProfile = null;
+    localStorage.removeItem('currentUser');
+    document.querySelectorAll('.app-shell').forEach(s => s.classList.remove('active'));
+    document.getElementById('authPage').classList.remove('active');
+    document.getElementById('welcomePage').style.display = 'flex';
+    document.getElementById('authFlipper').classList.remove('flipped');
+    hideChatbot();
+}
+
+// ========== PROJECTS ==========
+async function createProjectAPI(title, description, budget, category) {
+    try {
+        const response = await fetch(window.location.origin + '/api/projects', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, description, budget, category })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            showToast(`Project "${title}" created! Score: ${result.score}/100`, 'success');
+            showProjectSuccessModal(title, result.score, result.project.id);
+            await loadProjects();
+            if (document.getElementById('projectsListPage')) {
+                await loadProjectsPage();
+            }
+            return result;
+        } else {
+            showToast(result.error || 'Failed to create project', 'error');
+        }
+    } catch(error) {
+        console.error('Error:', error);
+        showToast('Failed to create project', 'error');
+    }
+    return null;
+}
+
+function showProjectSuccessModal(title, score, projectId) {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    
+    const scoreColor = score >= 85 ? 'var(--success)' : score >= 70 ? 'var(--teal)' : 'var(--amber)';
+    const scoreText = score >= 85 ? 'Excellent!' : score >= 70 ? 'Good job!' : 'Room for improvement';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:400px;width:90%;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove()" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            
+            <div style="text-align:center;">
+                <div style="font-size:48px;margin-bottom:8px;">✨</div>
+                <h2 style="font-family:Orbitron;margin-bottom:8px;">Project Analyzed!</h2>
+                <p style="color:var(--text-muted);font-size:0.85rem;">${escapeHtml(title)}</p>
+            </div>
+            
+            <div style="text-align:center;margin:24px 0;">
+                <div style="font-size:14px;color:var(--text-muted);margin-bottom:8px;">Originality Score</div>
+                <div style="font-size:64px;font-weight:700;color:${scoreColor};">${score}<span style="font-size:24px;">/100</span></div>
+                <div style="margin-top:8px;color:${scoreColor};">${scoreText}</div>
+            </div>
+            
+            <div style="display:flex;gap:12px;">
+                <button class="btn btn-primary" onclick="viewProjectAnalysis(${projectId}); this.closest('.profile-modal').remove();" style="flex:1;">View Details</button>
+                <button class="btn btn-secondary" onclick="this.closest('.profile-modal').remove(); loadProjects();" style="flex:1;">Close</button>            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+async function loadProjects() {
+    if (!currentUser) return;
+    try {
+        const response = await fetch(window.location.origin + '/api/projects');
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch projects');
+        }
+        
+        const result = await response.json();
+        const projects = result.projects || [];
+        const container = document.getElementById('projectsList');
+        
+        if (!container) return;
+        
+        if (projects.length === 0) {
+            container.innerHTML = `<div class="placeholder-panel"><p>No projects yet. Click "Upload Project" to get started!</p></div>`;
+            document.getElementById('statProjects').innerText = '0';
+            document.getElementById('statScore').innerText = '0';
+            return;
+        }
+        
+        container.innerHTML = projects.slice(0, 3).map(p => `
+            <div class="activity-item" style="cursor:pointer;" onclick="viewProjectAnalysis(${p.id})">
+                <div class="activity-status status-scanned"></div>
+                <div class="activity-info">
+                    <h4>${escapeHtml(p.title)}</h4>
+                    <span>Score: ${p.originality_score}% • ${p.category || 'General'} • ${new Date(p.created_at).toLocaleDateString()}</span>
+                </div>
+                <div class="activity-score" style="color: ${p.originality_score >= 85 ? 'var(--success)' : p.originality_score >= 70 ? 'var(--teal)' : 'var(--amber)'}">
+                    ${p.originality_score}
+                </div>
+            </div>
+        `).join('');
+        
+        const totalScore = projects.reduce((s, p) => s + p.originality_score, 0);
+        document.getElementById('statProjects').innerText = projects.length;
+        document.getElementById('statScore').innerText = projects.length ? Math.round(totalScore / projects.length) : '0';
+    } catch(e) { 
+        console.error('Error loading projects:', e); 
+        const container = document.getElementById('projectsList');
+        if (container) {
+            container.innerHTML = `<div class="placeholder-panel"><p>Error loading projects. Please refresh the page.</p></div>`;
+        }
+    }
+}
+// ========== PROJECT ANALYSIS MODAL ==========
+function viewProjectAnalysis(projectId) {
+    showToast('Loading project details...', 'info', 'Please wait');
+    
+    fetch(window.location.origin + `/api/projects/${projectId}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('Failed to fetch project');
+            }
+            return res.json();
+        })
+        .then(data => {
+            if (data.project) {
+                showFullProjectModal(data.project);
+            } else {
+                showToast('Project not found', 'error');
+            }
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            showToast('Failed to load project details', 'error');
+        });
+}
+
+function showFullProjectModal(project) {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;overflow-y:auto;';
+    
+    const aiAnalysis = project.ai_analysis || {};
+    const scoreColor = project.originality_score >= 85 ? 'var(--success)' : project.originality_score >= 70 ? 'var(--teal)' : 'var(--amber)';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:700px;width:90%;max-height:85vh;overflow-y:auto;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove();" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            
+            <h2 style="font-family:Orbitron;margin-bottom:8px;">🚀 ${escapeHtml(project.title)}</h2>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:24px;">Created: ${new Date(project.created_at).toLocaleDateString()} • Category: ${escapeHtml(project.category || 'General')}</p>
+            
+            <!-- Overall Score -->
+            <div style="background:linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,212,255,0.05));border-radius:20px;padding:24px;text-align:center;margin-bottom:24px;">
+                <div style="font-size:12px;color:var(--text-muted);letter-spacing:2px;margin-bottom:8px;">OVERALL SCORE</div>
+                <div style="font-size:72px;font-weight:800;color:${scoreColor};">${project.originality_score}<span style="font-size:28px;">/100</span></div>
+                <div style="margin-top:12px;font-size:0.85rem;color:var(--text-secondary);">${aiAnalysis.investment_readiness || 'Investment Ready'}</div>
+            </div>
+            
+            <!-- AI Analysis Text -->
+            <div style="background:rgba(0,0,0,0.2);border-radius:16px;padding:16px;margin-bottom:20px;">
+                <h3 style="font-family:Orbitron;font-size:0.9rem;margin-bottom:10px;">🤖 AI Analysis</h3>
+                <p style="color:var(--text-secondary);line-height:1.6;">${escapeHtml(aiAnalysis.analysis || project.description?.substring(0, 300) || 'No analysis available')}</p>
+                ${aiAnalysis.market_insight ? `<p style="color:var(--teal);margin-top:10px;">📊 ${escapeHtml(aiAnalysis.market_insight)}</p>` : ''}
+            </div>
+            
+            <!-- Detailed Scores -->
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
+                <div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:12px;text-align:center;">
+                    <div style="font-size:11px;color:var(--text-muted);">ORIGINALITY</div>
+                    <div style="font-size:28px;font-weight:700;color:var(--teal);">${aiAnalysis.market_score || project.originality_score || 0}</div>
+                </div>
+                <div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:12px;text-align:center;">
+                    <div style="font-size:11px;color:var(--text-muted);">VIABILITY</div>
+                    <div style="font-size:28px;font-weight:700;color:var(--cyan);">${aiAnalysis.viability_score || 0}</div>
+                </div>
+                <div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:12px;text-align:center;">
+                    <div style="font-size:11px;color:var(--text-muted);">COMPLETENESS</div>
+                    <div style="font-size:28px;font-weight:700;color:var(--amber);">${aiAnalysis.completeness_score || 0}</div>
+                </div>
+            </div>
+            
+            <!-- Strengths -->
+            ${aiAnalysis.strengths && aiAnalysis.strengths.length > 0 ? `
+            <div style="margin-bottom:16px;">
+                <h3 style="font-family:Orbitron;font-size:0.9rem;margin-bottom:8px;">✅ Strengths</h3>
+                <ul style="margin:0;padding-left:20px;color:var(--success);">
+                    ${aiAnalysis.strengths.map(s => `<li style="margin:4px 0;">${escapeHtml(s)}</li>`).join('')}
+                </ul>
+            </div>
+            ` : ''}
+            
+            <!-- Weaknesses -->
+            ${aiAnalysis.weaknesses && aiAnalysis.weaknesses.length > 0 ? `
+            <div style="margin-bottom:16px;">
+                <h3 style="font-family:Orbitron;font-size:0.9rem;margin-bottom:8px;">⚠️ Areas to Improve</h3>
+                <ul style="margin:0;padding-left:20px;color:var(--danger);">
+                    ${aiAnalysis.weaknesses.map(w => `<li style="margin:4px 0;">${escapeHtml(w)}</li>`).join('')}
+                </ul>
+            </div>
+            ` : ''}
+            
+            <!-- Suggestions -->
+            ${aiAnalysis.suggestions && aiAnalysis.suggestions.length > 0 ? `
+            <div style="margin-bottom:20px;">
+                <h3 style="font-family:Orbitron;font-size:0.9rem;margin-bottom:8px;">💡 AI Suggestions</h3>
+                <ul style="margin:0;padding-left:20px;color:var(--cyan);">
+                    ${aiAnalysis.suggestions.map(s => `<li style="margin:4px 0;">${escapeHtml(s)}</li>`).join('')}
+                </ul>
+            </div>
+            ` : ''}
+            
+            <!-- Description -->
+            <div style="margin-bottom:20px;">
+                <h3 style="font-family:Orbitron;font-size:0.9rem;margin-bottom:8px;">📝 Full Description</h3>
+                <div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:16px;">
+                    <p style="color:var(--text-secondary);line-height:1.5;margin:0;">${escapeHtml(project.full_description || project.description)}</p>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div style="display:flex;gap:12px;margin-top:16px;">
+                <button class="btn btn-primary" onclick="findMatchesForProject(${project.id}); this.closest('.profile-modal').remove();" style="flex:1;">🤝 Find Investors</button>
+                <button class="btn btn-secondary" onclick="editProject(${project.id}); this.closest('.profile-modal').remove();" style="flex:1;">✏️ Edit</button>
+                <button class="btn btn-ghost" onclick="deleteProject(${project.id}, this); this.closest('.profile-modal').remove();" style="color:var(--danger);border-color:var(--danger);">🗑️ Delete</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+function deleteProject(projectId, btn) {
+    showConfirmModal(
+        'Delete Project',
+        'Are you sure you want to delete this project? This action cannot be undone.',
+        function() {
+            // This runs when user clicks Delete
+            showToast('Deleting project...', 'info');
+            
+            fetch(`/api/projects/${projectId}`, { 
+                method: 'DELETE',
+                credentials: 'include'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Project deleted successfully', 'success');
+                    // Close the project modal if open
+                    const projectModal = document.querySelector('.profile-modal:not(.deleting)');
+                    if (projectModal) projectModal.remove();
+                    document.body.style.overflow = '';
+                    // Refresh lists
+                    loadProjects();
+                    loadProjectsPage();
+                } else {
+                    showToast('Delete failed: ' + (data.error || 'Unknown error'), 'error');
+                }
+            })
+            .catch(err => {
+                console.error('Delete error:', err);
+                showToast('Delete failed', 'error');
+            });
+        }
+    );
+}
+
+function findMatchesForProject(projectId) {
+    showToast('Searching for matching investors...', 'info', 'Please wait');
+    // This will call the investor matching API
+    fetch(`/api/ai/match-project/${projectId}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.matches && data.matches.length > 0) {
+                showInvestorMatchesModal(data.matches, data.project_title);
+            } else {
+                showToast('No matching investors found yet. Try improving your project description.', 'info');
+            }
+        })
+        .catch(err => {
+            showToast('Match service coming soon!', 'info');
+        });
+}
+
+function showInvestorMatchesModal(matches, projectTitle) {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;overflow-y:auto;';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:550px;width:90%;max-height:85vh;overflow-y:auto;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove(); document.body.style.overflow='';" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            
+            <h2 style="font-family:Orbitron;margin-bottom:8px;">🤝 Investor Matches</h2>
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:24px;">For: ${escapeHtml(projectTitle)}</p>
+            
+            ${matches.map(match => `
+                <div style="background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;margin-bottom:16px;border:1px solid var(--border);">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                        <h3 style="font-size:1.1rem;color:var(--teal);">${escapeHtml(match.name)}</h3>
+                        <span style="background:${match.match_score >= 85 ? 'var(--success)' : 'var(--teal)'}20;padding:4px 12px;border-radius:20px;color:${match.match_score >= 85 ? 'var(--success)' : 'var(--teal)'};">${match.match_score}% Match</span>
+                    </div>
+                    <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:8px;">💰 Budget: ${escapeHtml(match.budget_range)}</p>
+                    <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:12px;">🎯 Focus: ${escapeHtml(match.focus_areas?.join(', ') || 'General')}</p>
+                    <button class="btn btn-primary btn-small" onclick="connectWithInvestor('${escapeHtml(match.name)}', ${match.match_score})" style="width:100%;">Connect →</button>
+                </div>
+            `).join('')}
+            
+            <button class="btn btn-secondary" onclick="this.closest('.profile-modal').remove()" style="width:100%;margin-top:8px;">Close</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+}
+
+function connectWithInvestor(investorName, matchScore) {
+    showToast(`Connection request sent to ${investorName}!`, 'success');
+}
+
+// ========== CONTRACTS ==========
+function openUploadContract() {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:450px;width:90%;">
+            <h2 style="font-family:Orbitron;margin-bottom:20px;">Upload Contract</h2>
+            <div class="form-group"><label>Contract Title</label><input type="text" id="contractTitle" placeholder="e.g., NDA Agreement"></div>
+            <div class="form-group"><label>Upload File (PDF, DOC, DOCX, TXT)</label><input type="file" id="contractFile" accept=".pdf,.doc,.docx,.txt"></div>
+            <div style="display:flex;gap:12px;"><button class="btn btn-primary" onclick="uploadContract()" style="flex:1;">Upload & Analyze</button><button class="btn btn-secondary" onclick="this.closest('.profile-modal').remove()" style="flex:1;">Cancel</button></div>
+        </div>`;
+    document.body.appendChild(modal);
+}
+
+async function uploadContract() {
+    const title = document.getElementById('contractTitle')?.value;
+    const file = document.getElementById('contractFile')?.files[0];
+    
+    if (!title) {
+        showToast('Please enter a contract title', 'warning');
+        return;
+    }
+    if (!file) {
+        showToast('Please select a file to upload', 'warning');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('file', file);
+    
+    showToast('Uploading and analyzing contract...', 'info', 'Processing');
+    
+    try {
+        const response = await fetch('/api/contracts/upload', { 
+            method: 'POST', 
+            body: formData 
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            document.querySelector('.profile-modal')?.remove();
+            showAnalysisResult(title, result.fairness_score, {
+                summary: result.summary,
+                contract_id: result.contract_id
+            });
+            loadContracts();
+        } else {
+            showToast(result.error || 'Upload failed', 'error');
+        }
+    } catch(e) {
+        console.error('Upload error:', e);
+        showToast('Upload failed: ' + e.message, 'error');
+    }
+}
+async function loadContracts() {
+    if (!currentUser) return;
+    try {
+        const response = await fetch(window.location.origin + '/api/contracts');
+        const contracts = await response.json();
+        const container = document.getElementById('contractsList');
+        if (container) {
+            if (contracts.length === 0) {
+                container.innerHTML = '<div class="placeholder-panel"><p>No contracts yet. Upload your first contract!</p></div>';
+            } else {
+                container.innerHTML = contracts.map(c => `
+                    <div class="activity-item" style="cursor:pointer;" onclick="viewContractAnalysis(${c.id})">
+                        <div class="activity-status status-scanned"></div>
+                        <div class="activity-info">
+                            <h4>${escapeHtml(c.title)}</h4>
+                            <span>Score: ${c.fairness_score}/100 • ${new Date(c.created_at).toLocaleDateString()}</span>
+                        </div>
+                        <div class="activity-score" style="color: ${c.fairness_score >= 80 ? 'var(--success)' : c.fairness_score >= 60 ? 'var(--amber)' : 'var(--danger)'}">
+                            ${c.fairness_score}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+    } catch(e) { 
+        console.error(e); 
+        showToast('Error loading contracts', 'error');
+    }
+}
+
+// ========== UI HELPERS ==========
+function openUploadProject() {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    modal.innerHTML = `<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:450px;width:90%;"><h2 style="font-family:Orbitron;margin-bottom:20px;">Upload Project</h2>
+        <div class="form-group"><label>Title</label><input type="text" id="projectTitle" placeholder="Project name"></div>
+        <div class="form-group"><label>Description</label><textarea id="projectDesc" rows="3" placeholder="Describe your idea..." style="width:100%;padding:10px;background:var(--bg-deep);border:1px solid var(--border);border-radius:10px;color:white;"></textarea></div>
+        <div class="form-group"><label>Budget</label><input type="text" id="projectBudget" placeholder="$30,000 - $50,000"></div>
+        <div class="form-group"><label>Category</label><select id="projectCategory"><option>AI/ML</option><option>Blockchain</option><option>SaaS</option><option>Mobile App</option></select></div>
+        <div style="display:flex;gap:12px;"><button class="btn btn-primary" onclick="createAndUpload()" style="flex:1;">Analyze & Upload</button><button class="btn btn-secondary" onclick="this.closest('.profile-modal').remove()" style="flex:1;">Cancel</button></div></div>`;
+    document.body.appendChild(modal);
+}
+
+async function createAndUpload() {
+    const title = document.getElementById('projectTitle')?.value;
+    const desc = document.getElementById('projectDesc')?.value;
+    const budget = document.getElementById('projectBudget')?.value;
+    const category = document.getElementById('projectCategory')?.value;
+    
+    if (!title || !desc) {
+        showToast('Please enter title and description', 'warning');
+        return;
+    }
+    
+    showToast('Analyzing your project...', 'info', 'Please wait');
+    
+    const result = await createProjectAPI(title, desc, budget, category);
+    
+    if (result && result.success) {
+        // Close the modal
+        document.querySelector('.profile-modal')?.remove();
+        // Refresh both displays
+        await loadProjects();
+        await loadProjectsPage();
+    }
+}
+
+function findMatches() { alert('AI matching coming soon! Upload a project to get matched with investors.'); }
+function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+
+// ========== PROFILE, SETTINGS & HELP ==========
+function updateProfileUI() {
+    if (currentUser) {
+        document.getElementById('profileUserName').innerText = currentUser.username;
+        document.getElementById('profileUserEmail').innerText = currentUser.email;
+        document.getElementById('profileAvatarLetter').innerText = currentUser.username.charAt(0).toUpperCase();
+        document.getElementById('navAvatar').innerHTML = currentUser.username.charAt(0).toUpperCase();
+        const badge = document.getElementById('profileTypeBadge');
+        if (badge) badge.innerText = currentUserProfile === 'freelancer' ? '💼 Freelancer' : '💰 Investor';
+    }
+}
+
+function showProfileModal() {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:450px;width:90%;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove(); document.body.style.overflow='';" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            <div style="text-align:center;margin-bottom:24px;">
+                <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--cyan));display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:2rem;font-weight:700;color:var(--bg-deep);">${currentUser?.username?.charAt(0).toUpperCase() || 'U'}</div>
+                <h3 style="margin-top:16px;font-family:Orbitron;">${currentUser?.username || 'User'}</h3>
+                <span style="color:var(--text-muted);font-size:0.85rem;">${currentUser?.email || 'user@example.com'}</span>
+                <div style="margin-top:8px;"><span style="padding:4px 12px;background:${currentUserProfile === 'freelancer' ? 'var(--teal-dim)' : 'var(--cyan-dim)'};border-radius:20px;font-size:0.75rem;">${currentUserProfile === 'freelancer' ? '💼 Freelancer' : '💰 Investor'}</span></div>
+            </div>
+            <div class="form-group"><label>Username</label><input type="text" id="editUsername" value="${currentUser?.username || ''}" style="width:100%;padding:12px;background:var(--bg-deep);border:1px solid var(--border);border-radius:12px;color:white;"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="editEmail" value="${currentUser?.email || ''}" style="width:100%;padding:12px;background:var(--bg-deep);border:1px solid var(--border);border-radius:12px;color:white;"></div>
+            <button class="btn btn-primary" onclick="saveProfileChanges(this)" style="width:100%;margin-top:8px;">Save Changes</button>
+        </div>`;
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+}
+
+function saveProfileChanges(btn) {
+    const modal = btn.closest('.profile-modal');
+    const newUsername = document.getElementById('editUsername')?.value;
+    if (newUsername && currentUser) {
+        currentUser.username = newUsername;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        updateProfileUI();
+        alert('Profile updated successfully!');
+    }
+    modal.remove();
+    document.body.style.overflow = '';
+}
+
+function showSettingsModal() {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:450px;width:90%;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove(); document.body.style.overflow='';" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            <h2 style="font-family:Orbitron;margin-bottom:24px;">${getText('settings')}</h2>
+            <div class="form-group"><label>${getText('theme')}</label>
+                <select id="settingsThemeSelect" style="width:100%;padding:12px;background:var(--bg-deep);border:1px solid var(--border);border-radius:12px;color:white;">
+                    <option value="dark" ${currentTheme === 'dark' ? 'selected' : ''}>🌙 ${getText('dark')}</option>
+                    <option value="light" ${currentTheme === 'light' ? 'selected' : ''}>☀️ ${getText('light')}</option>
+                    <option value="system" ${currentTheme === 'system' ? 'selected' : ''}>⚙️ ${getText('system')}</option>
+                </select>
+            </div>
+            <div class="form-group"><label>${getText('language')}</label>
+                <select id="settingsLanguageSelect" style="width:100%;padding:12px;background:var(--bg-deep);border:1px solid var(--border);border-radius:12px;color:white;">
+                    <option value="en" ${currentLanguage === 'en' ? 'selected' : ''}>🇬🇧 ${getText('english')}</option>
+                    <option value="fr" ${currentLanguage === 'fr' ? 'selected' : ''}>🇫🇷 ${getText('french')}</option>
+                </select>
+            </div>
+            <div class="form-group"><label>${getText('voiceGender')}</label>
+                <select id="voiceGenderSelect" style="width:100%;padding:12px;background:var(--bg-deep);border:1px solid var(--border);border-radius:12px;color:white;">
+                    <option value="female" ${voiceGender === 'female' ? 'selected' : ''}>👩 ${getText('voiceFemale')}</option>
+                    <option value="male" ${voiceGender === 'male' ? 'selected' : ''}>👨 ${getText('voiceMale')}</option>
+                </select>
+            </div>
+            <div class="form-group"><label>${getText('speechRate')} <span id="rateValue">${speechRate}</span></label>
+                <input type="range" id="speechRateSlider" min="0.5" max="1.5" step="0.1" value="${speechRate}" style="width:100%;">
+            </div>
+            <div class="form-group"><label>${getText('speechPitch')} <span id="pitchValue">${speechPitch}</span></label>
+                <input type="range" id="speechPitchSlider" min="0.5" max="1.5" step="0.1" value="${speechPitch}" style="width:100%;">
+            </div>
+            <button class="btn btn-primary" onclick="saveSettingsChanges(this)" style="width:100%;margin-top:8px;">${getText('settings')}</button>
+        </div>`;
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    
+    document.getElementById('speechRateSlider').addEventListener('input', function() {
+        document.getElementById('rateValue').innerText = this.value;
+    });
+    document.getElementById('speechPitchSlider').addEventListener('input', function() {
+        document.getElementById('pitchValue').innerText = this.value;
+    });
+}
+
+function saveSettingsChanges(btn) {
+    const modal = btn.closest('.profile-modal');
+    const newTheme = document.getElementById('settingsThemeSelect')?.value || 'dark';
+    const newLanguage = document.getElementById('settingsLanguageSelect')?.value || 'en';
+    const newVoiceGender = document.getElementById('voiceGenderSelect')?.value || 'female';
+    const newSpeechRate = parseFloat(document.getElementById('speechRateSlider')?.value) || 0.9;
+    const newSpeechPitch = parseFloat(document.getElementById('speechPitchSlider')?.value) || 1.0;
+    
+    localStorage.setItem('theme', newTheme);
+    localStorage.setItem('language', newLanguage);
+    localStorage.setItem('voiceGender', newVoiceGender);
+    localStorage.setItem('speechRate', newSpeechRate);
+    localStorage.setItem('speechPitch', newSpeechPitch);
+    
+    speechRate = newSpeechRate;
+    speechPitch = newSpeechPitch;
+    voiceGender = newVoiceGender;
+    
+    if (newTheme !== currentTheme) applyTheme(newTheme);
+    if (newLanguage !== currentLanguage) {
+        currentLanguage = newLanguage;
+        applyLanguage();
+    }
+    
+    loadVoices();
+    alert(getText('settings_saved'));
+    modal.remove();
+    document.body.style.overflow = '';
+    
+    setTimeout(() => {
+        speakText("Voice settings applied.");
+    }, 500);
+}
+
+function showHelpModal() {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:480px;width:90%;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove(); document.body.style.overflow='';" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            <h2 style="font-family:Orbitron;margin-bottom:24px;">❓ ${getText('help')}</h2>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+                <div style="padding:16px;background:rgba(0,212,170,0.05);border-radius:16px;"><strong style="color:var(--teal);">📄 How to upload a project?</strong><p style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Click "Upload Project" → Fill in title, description, budget, category → AI analyzes and gives a score out of 100!</p></div>
+                <div style="padding:16px;background:rgba(0,212,170,0.05);border-radius:16px;"><strong style="color:var(--teal);">🤝 How does investor matching work?</strong><p style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Upload a project first → Get an AI score → See matching investors on the Matches page.</p></div>
+                <div style="padding:16px;background:rgba(0,212,170,0.05);border-radius:16px;"><strong style="color:var(--teal);">⚖️ How does contract analysis work?</strong><p style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Upload any contract (PDF, DOC, DOCX, TXT) → AI detects dangerous clauses and gives a fairness score.</p></div>
+                <div style="padding:16px;background:rgba(0,212,170,0.05);border-radius:16px;"><strong style="color:var(--teal);">🔊 Voice Settings</strong><p style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Go to Settings → Choose Lex's voice, adjust speech rate and pitch. Click 🔊 to mute/unmute.</p></div>
+                <div style="padding:16px;background:rgba(0,212,170,0.05);border-radius:16px;"><strong style="color:var(--teal);">🌍 Language</strong><p style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Go to Settings → Choose English or Français. The whole app and chatbot will switch!</p></div>
+                <div style="padding:16px;background:rgba(0,212,170,0.05);border-radius:16px;"><strong style="color:var(--teal);">📧 Contact Support</strong><p style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Email: support@lexwise.com</p></div>
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+}
+
+function getLocalizedBotResponse() {
+    if (currentUserProfile === 'freelancer') {
+        return currentLanguage === 'fr' 
+            ? "📊 Bonjour ! Je suis Lex. Je peux évaluer vos idées de projets (score 0-100), vous aider à trouver des investisseurs, et analyser vos contrats. Décrivez-moi votre projet ! 🚀" 
+            : "📊 Hi! I'm Lex. I can score your project ideas (0-100), help you find investors, and review contracts. Describe your project to me! 🚀";
+    } else {
+        return currentLanguage === 'fr' 
+            ? "💰 Bonjour ! Je suis Lex. Je peux évaluer des projets d'investissement, analyser des offres, et vérifier l'équité des contrats. Comment puis-je vous aider ?" 
+            : "💰 Hello! I'm Lex. I can evaluate investment projects, analyze offers, and review contract fairness. How can I help you?";
+    }
+}
+function setLexWelcomeMessage() {
+    const welcomeDiv = document.getElementById('lexWelcomeMessage');
+    if (welcomeDiv) welcomeDiv.innerHTML = getLocalizedBotResponse();
+}
+
+function toggleLex() {
+    const chat = document.getElementById('lexChat');
+    lexOpen = !lexOpen;
+    chat.classList.toggle('active', lexOpen);
+    if (lexOpen) {
+        document.getElementById('lexInput').focus();
+        loadVoices();
+    }
+}
+
+function formatMarkdown(text) {
+    if (!text) return '';
+    
+    // Clean up weird spacing around punctuation
+    let formatted = text.replace(/\s+,\s+/g, ', ');
+    formatted = formatted.replace(/\s+\.\s+/g, '. ');
+    formatted = formatted.replace(/,\s*,/g, ',');
+    
+    // Convert **bold** to <strong>
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Convert bullet points with • 
+    formatted = formatted.replace(/^[•\-]\s+(.*)$/gm, '<li>$1</li>');
+    formatted = formatted.replace(/(<li>.*?<\/li>\n?)+/gs, '<ul>$&</ul>');
+    
+    // Convert numbered list (1., 2., etc.) - for when Lex uses them
+    formatted = formatted.replace(/(\d+)\.\s+(.*?)(?=\n\d+\.|\n\n|$)/gs, '<li value="$1">$2</li>');
+    formatted = formatted.replace(/(<li value="\d+">.*?<\/li>\n?)+/gs, '<ol>$&</ol>');
+    
+    // Convert double line breaks to paragraph breaks
+    formatted = formatted.replace(/\n\n/g, '</p><p>');
+    
+    // Convert single line breaks to <br> (but not inside lists)
+    let parts = formatted.split(/(<ul>|<\/ul>|<ol>|<\/ol>)/g);
+    for (let i = 0; i < parts.length; i++) {
+        if (!parts[i].match(/<ul>|<\/ul>|<ol>|<\/ol>/)) {
+            parts[i] = parts[i].replace(/\n/g, '<br>');
+        }
+    }
+    formatted = parts.join('');
+    
+    // Wrap in paragraph if not already wrapped
+    if (!formatted.startsWith('<')) {
+        formatted = '<p>' + formatted + '</p>';
+    }
+    
+    // Clean up empty paragraphs
+    formatted = formatted.replace(/<p>\s*<\/p>/g, '');
+    formatted = formatted.replace(/<p><br><\/p>/g, '');
+    
+    // Fix spacing
+    formatted = formatted.replace(/\s+/g, ' ').replace(/>\s+</g, '><');
+    formatted = formatted.replace(/<p>\s+/, '<p>').replace(/\s+<\/p>/, '</p>');
+    
+    return formatted;
+}
+
+function sendLex() {
+    const input = document.getElementById('lexInput');
+    const body = document.getElementById('lexBody');
+    const robot = document.getElementById('lexRobot');
+    const msg = input.value.trim();
+    
+    if (!msg) return;
+    
+    // Add user message
+    const userDiv = document.createElement('div');
+    userDiv.className = 'lex-message user';
+    userDiv.textContent = msg;
+    body.appendChild(userDiv);
+    input.value = '';
+    body.scrollTop = body.scrollHeight;
+    
+    // Typing animation
+    robot.classList.add('talking');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'lex-message bot typing';
+    typingDiv.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    body.appendChild(typingDiv);
+    body.scrollTop = body.scrollHeight;
+    
+    const currentLang = localStorage.getItem('language') || 'en';
+    
+    fetch(window.location.origin + '/api/chat/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, language: currentLang })
+    })
+    .then(response => response.json())
+    .then(data => {
+        typingDiv.remove();
+        robot.classList.remove('talking');
+        
+        const botDiv = document.createElement('div');
+        botDiv.className = 'lex-message bot';
+        const responseText = data.reply || getLocalizedBotResponse();
+        // Use innerHTML to render bold text
+        botDiv.innerHTML = formatMarkdown(responseText);
+        body.appendChild(botDiv);
+        body.scrollTop = body.scrollHeight;
+        
+        // For voice, remove markdown symbols
+        const cleanForVoice = responseText.replace(/\*\*/g, '');
+        speakText(cleanForVoice);
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        typingDiv.remove();
+        robot.classList.remove('talking');
+        
+        const botDiv = document.createElement('div');
+        botDiv.className = 'lex-message bot';
+        const errorMsg = getLocalizedBotResponse();
+        botDiv.innerHTML = errorMsg;
+        body.appendChild(botDiv);
+        body.scrollTop = body.scrollHeight;
+        speakText(errorMsg);
+    });
+}
+
+// ========== PARTICLES ==========
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+    constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 2 + 0.5; this.speedX = (Math.random() - 0.5) * 0.3; this.speedY = (Math.random() - 0.5) * 0.3; this.opacity = Math.random() * 0.4 + 0.1; this.color = Math.random() > 0.6 ? '0,212,170' : '0,212,255'; }
+    update() { this.x += this.speedX; this.y += this.speedY; if (this.x < 0) this.x = canvas.width; if (this.x > canvas.width) this.x = 0; if (this.y < 0) this.y = canvas.height; if (this.y > canvas.height) this.y = 0; }
+    draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`; ctx.fill(); }
+}
+
+function initParticles() { particles = []; for (let i = 0; i < 60; i++) particles.push(new Particle()); }
+function animateParticles() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
+initParticles(); animateParticles();
+
+// ========== UI NAVIGATION ==========
+function selectService(service) { document.getElementById('welcomePage').style.display = 'none'; document.getElementById('authPage').classList.add('active'); }
+function backToWelcome() { document.getElementById('authPage').classList.remove('active'); document.getElementById('welcomePage').style.display = 'flex'; document.getElementById('authFlipper').classList.remove('flipped'); }
+function switchAuthTab(tab) { document.getElementById('authFlipper').classList.toggle('flipped', tab === 'register'); }
+function togglePassword(inputId, btn) { const input = document.getElementById(inputId); const type = input.type === 'password' ? 'text' : 'password'; input.type = type; btn.querySelector('svg').style.stroke = type === 'text' ? 'var(--teal)' : ''; }
+function switchToService(service) { document.querySelectorAll('.app-shell').forEach(s => s.classList.remove('active')); document.getElementById(service === 'lexwise' ? 'lexwiseApp' : 'fincoachApp').classList.add('active'); }
+function showLexPage(page) {
+    // Check permissions based on profile type FIRST
+    if (page === 'projects' && currentUserProfile !== 'freelancer') {
+        showToast('Only freelancers can access Projects', 'warning');
+        return;  // Exit early, don't change page
+    }
+    
+    if (page === 'contracts' && currentUserProfile !== 'investor') {
+        showToast('Only investors can access Contracts', 'warning');
+        return;  // Exit early, don't change page
+    }
+    
+    // Hide all pages ONLY if permission check passed
+    document.querySelectorAll('#lexwiseApp .page').forEach(p => p.classList.remove('active'));
+    
+    // Show selected page
+    const targetPage = document.getElementById('lex-' + page);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+    
+    // Update nav active state
+    document.querySelectorAll('#lexwiseApp .nav-links a').forEach(link => link.classList.remove('active'));
+    
+    if (page === 'home') {
+        const firstLink = document.querySelector('#lexwiseApp .nav-links a:first-child');
+        if (firstLink) firstLink.classList.add('active');
+        loadProjects();
+    } else if (page === 'projects') {
+        const secondLink = document.querySelector('#lexwiseApp .nav-links a:nth-child(2)');
+        if (secondLink) secondLink.classList.add('active');
+        loadProjectsPage();
+        loadRecentActivity();
+    } else if (page === 'contracts') {
+        const thirdLink = document.querySelector('#lexwiseApp .nav-links a:nth-child(3)');
+        if (thirdLink) thirdLink.classList.add('active');
+        loadContractsPage();
+    } else if (page === 'matches') {
+        const fourthLink = document.querySelector('#lexwiseApp .nav-links a:nth-child(4)');
+        if (fourthLink) fourthLink.classList.add('active');
+        
+        // Show correct view based on profile
+        if (currentUserProfile === 'freelancer') {
+            document.getElementById('freelancerMatchesView').style.display = 'block';
+            document.getElementById('investorMatchesView').style.display = 'none';
+            document.getElementById('matchesTitle').innerText = '🤝 Investor Matches';
+            loadInvestorMatches();
+        } else {
+            document.getElementById('freelancerMatchesView').style.display = 'none';
+            document.getElementById('investorMatchesView').style.display = 'block';
+            document.getElementById('matchesTitle').innerText = '🚀 Investment Opportunities';
+            loadProjectMatches();
+        }
+    } else if (page === 'messages') {
+        const fifthLink = document.querySelector('#lexwiseApp .nav-links a:nth-child(5)');
+        if (fifthLink) fifthLink.classList.add('active');
+        loadMessages();
+    }
+}
+function toggleNotif(e) { e.stopPropagation(); document.getElementById('notifDropdown').classList.toggle('active'); }
+function toggleProfile(e) { e.stopPropagation(); document.getElementById('profileMenu').classList.toggle('active'); }
+function markAllRead() { alert('All notifications marked as read'); }
+document.addEventListener('click', () => { document.getElementById('notifDropdown')?.classList.remove('active'); document.getElementById('profileMenu')?.classList.remove('active'); });
+
+// ========== INITIALIZATION ==========
+document.addEventListener('DOMContentLoaded', () => {
+    loadTheme();
+    applyLanguage();
+    // ... other initialization code ...
+    
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+        try {
+            currentUser = JSON.parse(savedUser);
+            currentUserProfile = currentUser.profile_type;
+            document.getElementById('welcomePage').style.display = 'none';
+            document.getElementById('authPage').classList.remove('active');
+            document.getElementById('lexwiseApp').classList.add('active');
+            updateProfileUI();
+            loadProjects();
+            loadContracts();
+            setLexWelcomeMessage();
+            showChatbot();
+            
+            // ========== ADD THIS LINE HERE ==========
+            startNotificationPolling();  // ← ADD THIS LINE
+            // =======================================
+            
+        } catch(e) { localStorage.removeItem('currentUser'); hideChatbot(); }
+    } else {
+        hideChatbot();
+    }
+});
+// ========== CONTRACT ANALYSIS MODAL ==========
+function viewContractAnalysis(contractId) {
+    showToast('Loading contract details...', 'info', 'Please wait');
+    
+    fetch(window.location.origin + `/api/contracts/${contractId}`)
+        .then(res => res.json())
+        .then(contract => {
+            showFullContractModal(contract);
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            showToast('Failed to load contract details', 'error');
+        });
+}
+
+function showFullContractModal(contract) {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;overflow-y:auto;';
+    
+    const severityColor = {
+        'High': '#ff4757',
+        'Medium': '#ffb800',
+        'Low': '#2ed573'
+    };
+    
+    const scoreColor = contract.fairness_score >= 80 ? 'var(--success)' : contract.fairness_score >= 60 ? 'var(--amber)' : 'var(--danger)';
+    const scoreText = contract.fairness_score >= 80 ? 'Excellent' : contract.fairness_score >= 60 ? 'Fair - Needs Review' : 'High Risk - Legal Advice Recommended';
+    
+    const clausesHtml = contract.dangerous_clauses && contract.dangerous_clauses.length > 0 
+        ? contract.dangerous_clauses.map(clause => `
+            <div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid ${severityColor[clause.severity] || '#ffb800'}">
+                <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                    <strong style="color:var(--teal);">⚠️ ${escapeHtml(clause.type)}</strong>
+                    <span style="color:${severityColor[clause.severity] || '#ffb800'}">${clause.severity} Risk</span>
+                </div>
+                <p style="color:var(--text-secondary);font-size:0.85rem;margin:0;">${escapeHtml(clause.explanation)}</p>
+            </div>
+        `).join('')
+        : '<p style="color:var(--text-secondary);">No dangerous clauses detected.</p>';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:650px;width:90%;max-height:85vh;overflow-y:auto;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove(); document.body.style.overflow='';" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;z-index:1;">&times;</button>
+            
+            <h2 style="font-family:Orbitron;margin-bottom:8px;padding-right:30px;">📄 ${escapeHtml(contract.title)}</h2>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:24px;">Uploaded: ${new Date(contract.created_at).toLocaleDateString()} • File: ${escapeHtml(contract.filename)}</p>
+            
+            <!-- Fairness Score Section -->
+            <div style="background:linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,212,255,0.05));border-radius:20px;padding:24px;text-align:center;margin-bottom:24px;">
+                <div style="font-size:12px;color:var(--text-muted);letter-spacing:2px;margin-bottom:8px;">FAIRNESS SCORE</div>
+                <div style="font-size:72px;font-weight:800;color:${scoreColor};">${contract.fairness_score}<span style="font-size:28px;">/100</span></div>
+                <div style="margin-top:12px;padding:6px 16px;background:${scoreColor}20;border-radius:30px;display:inline-block;color:${scoreColor};font-size:0.85rem;font-weight:500;">${scoreText}</div>
+            </div>
+            
+            <!-- Summary Section -->
+            <div style="margin-bottom:24px;">
+                <h3 style="font-family:Orbitron;font-size:1rem;margin-bottom:12px;">📋 AI Summary</h3>
+                <div style="background:rgba(0,0,0,0.2);border-radius:16px;padding:16px;">
+                    <p style="color:var(--text-secondary);line-height:1.6;margin:0;">${escapeHtml(contract.summary || 'Analysis complete. Review the dangerous clauses below for key findings.')}</p>
+                </div>
+            </div>
+            
+            <!-- Dangerous Clauses Section -->
+            <div style="margin-bottom:24px;">
+                <h3 style="font-family:Orbitron;font-size:1rem;margin-bottom:12px;">⚠️ Detected Clauses</h3>
+                ${clausesHtml}
+            </div>
+            
+            <!-- Negotiation Script Section -->
+            <div style="margin-bottom:24px;">
+                <h3 style="font-family:Orbitron;font-size:1rem;margin-bottom:12px;">📝 Negotiation Script</h3>
+                <div style="background:rgba(0,0,0,0.2);border-radius:16px;padding:20px;border:1px solid var(--border);">
+                    <p style="color:var(--text-primary);line-height:1.6;white-space:pre-wrap;margin:0;font-size:0.85rem;">${escapeHtml(contract.negotiation_script || 'No negotiation script generated.')}</p>
+                </div>
+                <button onclick="copyToClipboard(this)" data-text="${escapeHtml(contract.negotiation_script || '')}" style="margin-top:12px;padding:8px 20px;background:var(--teal-dim);border:1px solid var(--teal);border-radius:8px;color:var(--teal);cursor:pointer;font-size:0.8rem;">📋 Copy Script to Clipboard</button>
+            </div>
+            
+            <!-- Delete Button -->
+            <div style="margin-top:16px;text-align:center;">
+                <button onclick="deleteContract(${contract.id}, this)" class="btn btn-ghost" style="color:var(--danger);border-color:var(--danger);">🗑️ Delete Contract</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+}
+
+function copyToClipboard(btn) {
+    const text = btn.getAttribute('data-text');
+    navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => btn.textContent = originalText, 2000);
+        showToast('Negotiation script copied to clipboard!', 'success');
+    }).catch(() => {
+        showToast('Failed to copy', 'error');
+    });
+}
+
+function deleteContract(contractId, btn) {
+    showConfirmModal(
+        'Delete Contract',
+        'Are you sure you want to delete this contract? This action cannot be undone.',
+        function() {
+            showToast('Deleting contract...', 'info');
+            
+            fetch(`/api/contracts/${contractId}`, { 
+                method: 'DELETE',
+                credentials: 'include'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Contract deleted successfully', 'success');
+                    const contractModal = document.querySelector('.profile-modal:not(.deleting)');
+                    if (contractModal) contractModal.remove();
+                    document.body.style.overflow = '';
+                    loadContracts();
+                    loadContractsPage();
+                } else {
+                    showToast('Delete failed', 'error');
+                }
+            })
+            .catch(err => {
+                showToast('Delete failed', 'error');
+            });
+        }
+    );
+}
+
+function showAnalysisModal(contract) {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;overflow-y:auto;';
+    
+    const severityColor = {
+        'High': '#ff4757',
+        'Medium': '#ffb800',
+        'Low': '#2ed573'
+    };
+    
+    const clausesHtml = contract.dangerous_clauses.map(clause => `
+        <div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid ${severityColor[clause.severity] || '#ffb800'}">
+            <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <strong style="color:var(--teal);">⚠️ ${clause.type}</strong>
+                <span style="color:${severityColor[clause.severity] || '#ffb800'}">${clause.severity} Risk</span>
+            </div>
+            <p style="color:var(--text-secondary);font-size:0.85rem;">${clause.explanation}</p>
+        </div>
+    `).join('');
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:600px;width:90%;max-height:85vh;overflow-y:auto;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove(); document.body.style.overflow='';" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            
+            <h2 style="font-family:Orbitron;margin-bottom:8px;">📄 ${escapeHtml(contract.title)}</h2>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:24px;">Uploaded: ${new Date(contract.created_at).toLocaleDateString()}</p>
+            
+            <!-- Fairness Score -->
+            <div style="background:linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,212,255,0.05));border-radius:20px;padding:20px;text-align:center;margin-bottom:24px;">
+                <div style="font-size:14px;color:var(--text-muted);margin-bottom:8px;">FAIRNESS SCORE</div>
+                <div style="font-size:56px;font-weight:700;color:${contract.fairness_score >= 80 ? 'var(--success)' : contract.fairness_score >= 60 ? 'var(--amber)' : 'var(--danger)'};">${contract.fairness_score}<span style="font-size:24px;">/100</span></div>
+                <div style="font-size:12px;color:var(--text-secondary);margin-top:8px;">${contract.fairness_score >= 80 ? '✅ Good - Minor concerns' : contract.fairness_score >= 60 ? '⚠️ Moderate risk - Review needed' : '❌ High risk - Legal review recommended'}</div>
+            </div>
+            
+            <!-- Summary -->
+            <div style="margin-bottom:24px;">
+                <h3 style="font-family:Orbitron;font-size:1rem;margin-bottom:12px;">📋 Summary</h3>
+                <p style="color:var(--text-secondary);line-height:1.6;">${escapeHtml(contract.summary || 'No summary available')}</p>
+            </div>
+            
+            <!-- Dangerous Clauses -->
+            ${clausesHtml ? `
+            <div style="margin-bottom:24px;">
+                <h3 style="font-family:Orbitron;font-size:1rem;margin-bottom:12px;">⚠️ Dangerous Clauses Detected</h3>
+                ${clausesHtml}
+            </div>
+            ` : '<p style="color:var(--text-secondary);">No dangerous clauses detected.</p>'}
+            
+            <!-- Negotiation Script -->
+            <div style="margin-bottom:24px;">
+                <h3 style="font-family:Orbitron;font-size:1rem;margin-bottom:12px;">📝 Negotiation Script</h3>
+                <div style="background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;border:1px solid var(--border);">
+                    <p style="color:var(--text-primary);line-height:1.6;white-space:pre-wrap;">${escapeHtml(contract.negotiation_script || 'No script generated.')}</p>
+                </div>
+                <button onclick="copyToClipboard(this)" data-text="${escapeHtml(contract.negotiation_script || '')}" style="margin-top:12px;padding:8px 16px;background:var(--teal-dim);border:1px solid var(--teal);border-radius:8px;color:var(--teal);cursor:pointer;">📋 Copy Script</button>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="this.closest('.profile-modal').remove()" style="width:100%;">Close</button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+}
+
+function copyToClipboard(btn) {
+    const text = btn.getAttribute('data-text');
+    navigator.clipboard.writeText(text);
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy Script', 2000);
+}
+
+// ========== PROFESSIONAL TOAST NOTIFICATIONS ==========
+function showToast(message, type = 'info', title = '') {
+    const titles = {
+        success: '✅ Success',
+        error: '❌ Error',
+        warning: '⚠️ Warning',
+        info: 'ℹ️ Info'
+    };
+    
+    const toast = document.createElement('div');
+    toast.className = `toast-notification ${type}`;
+    toast.innerHTML = `
+        <div class="toast-title">${title || titles[type] || 'Info'}</div>
+        <div class="toast-message">${escapeHtml(message)}</div>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
+// ========== SUCCESS MODAL ==========
+function showSuccessModal(title, message, onClose = null) {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:400px;width:90%;text-align:center;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove()" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            <div style="font-size:64px;margin-bottom:16px;">✅</div>
+            <h2 style="font-family:Orbitron;margin-bottom:12px;">${escapeHtml(title)}</h2>
+            <p style="color:var(--text-secondary);margin-bottom:24px;">${escapeHtml(message)}</p>
+            <button class="btn btn-primary" onclick="this.closest('.profile-modal').remove(); if(${onClose}) ${onClose}();" style="width:100%;">Continue</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// ========== ERROR MODAL ==========
+function showErrorModal(title, message) {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:400px;width:90%;text-align:center;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove()" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            <div style="font-size:64px;margin-bottom:16px;">❌</div>
+            <h2 style="font-family:Orbitron;margin-bottom:12px;">${escapeHtml(title)}</h2>
+            <p style="color:var(--text-secondary);margin-bottom:24px;">${escapeHtml(message)}</p>
+            <button class="btn btn-primary" onclick="this.closest('.profile-modal').remove()" style="width:100%;">Close</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// ========== ANALYSIS RESULT MODAL ==========
+function showAnalysisResult(title, score, analysis) {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    
+    const scoreColor = score >= 80 ? 'var(--success)' : score >= 60 ? 'var(--amber)' : 'var(--danger)';
+    const scoreText = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : 'Needs Improvement';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:450px;width:90%;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove()" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            
+            <div style="text-align:center;">
+                <div style="font-size:48px;margin-bottom:8px;">✅</div>
+                <h2 style="font-family:Orbitron;margin-bottom:8px;">Analysis Complete!</h2>
+                <p style="color:var(--text-muted);font-size:0.85rem;">${escapeHtml(title)}</p>
+            </div>
+            
+            <div style="text-align:center;margin:24px 0;">
+                <div style="font-size:14px;color:var(--text-muted);margin-bottom:8px;">Fairness Score</div>
+                <div style="font-size:64px;font-weight:700;color:${scoreColor};">${score}<span style="font-size:24px;">/100</span></div>
+                <div style="margin-top:8px;padding:4px 12px;background:${scoreColor}20;border-radius:20px;display:inline-block;color:${scoreColor};">${scoreText}</div>
+            </div>
+            
+            <div style="display:flex;gap:12px;">
+                <button class="btn btn-primary" onclick="viewContractAnalysis(${analysis.contract_id}); this.closest('.profile-modal').remove();" style="flex:1;">View Full Analysis</button>
+                <button class="btn btn-secondary" onclick="this.closest('.profile-modal').remove()" style="flex:1;">Close</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+async function loadProjectsPage() {
+    console.log("loadProjectsPage called");
+    
+    if (!currentUser) {
+        console.log("No user in localStorage, but trying anyway");
+    }
+    
+    const container = document.getElementById('projectsListPage');
+    if (!container) return;
+    
+    try {
+        container.innerHTML = '<div class="placeholder-panel"><p>Loading your projects...</p></div>';
+        
+        const response = await fetch(window.location.origin + '/api/projects', {
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        console.log("Response status:", response.status);
+        
+        if (!response.ok) {
+            throw new Error('HTTP ' + response.status);
+        }
+        
+        const result = await response.json();
+        const projects = result.projects || [];
+        
+        console.log("Projects found:", projects.length);
+        
+        if (projects.length === 0) {
+            container.innerHTML = '<div class="placeholder-panel"><p>No projects yet. Click "New Project" to get started!</p></div>';
+            return;
+        }
+        
+        container.innerHTML = projects.map(p => `
+            <div class="activity-item" style="cursor:pointer;" onclick="viewProjectAnalysis(${p.id})">
+                <div class="activity-status status-scanned"></div>
+                <div class="activity-info">
+                    <h4>${escapeHtml(p.title)}</h4>
+                    <span>Score: ${p.originality_score}% • ${p.category || 'General'} • ${new Date(p.created_at).toLocaleDateString()}</span>
+                </div>
+                <div class="activity-score" style="color: ${p.originality_score >= 85 ? 'var(--success)' : p.originality_score >= 70 ? 'var(--teal)' : 'var(--amber)'}">
+                    ${p.originality_score}
+                </div>
+                <div class="activity-actions" onclick="event.stopPropagation()">
+                    <button class="btn btn-ghost btn-small" onclick="deleteProjectFromPage(${p.id})">Delete</button>
+                </div>
+            </div>
+        `).join('');
+        
+    } catch(e) { 
+        console.error('Error loading projects page:', e); 
+        container.innerHTML = '<div class="placeholder-panel"><p>Error loading projects. Please refresh.</p></div>';
+    }
+}
+function deleteProjectFromPage(projectId) {
+    showConfirmModal(
+        'Delete Project',
+        'Are you sure you want to delete this project? This action cannot be undone.',
+        function() {
+            fetch(`/api/projects/${projectId}`, { method: 'DELETE', credentials: 'include' })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast('Project deleted successfully', 'success');
+                        loadProjectsPage();
+                        loadProjects();
+                    } else {
+                        showToast('Delete failed', 'error');
+                    }
+                })
+                .catch(err => {
+                    showToast('Delete failed', 'error');
+                });
+        }
+    );
+}
+function deleteContractFromPage(contractId) {
+    showConfirmModal(
+        'Delete Contract',
+        'Are you sure you want to delete this contract? This action cannot be undone.',
+        function() {
+            fetch(`/api/contracts/${contractId}`, { method: 'DELETE', credentials: 'include' })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast('Contract deleted successfully', 'success');
+                        loadContractsPage();
+                        loadContracts();
+                    } else {
+                        showToast('Delete failed', 'error');
+                    }
+                })
+                .catch(err => {
+                    showToast('Delete failed', 'error');
+                });
+        }
+    );
+}
+
+async function loadContractsPage() {
+    console.log("loadContractsPage called");
+    
+    if (!currentUser) return;
+    
+    const container = document.getElementById('contractsListPage');
+    if (!container) {
+        console.log("contractsListPage element not found!");
+        return;
+    }
+    
+    try {
+        const response = await fetch(window.location.origin + '/api/contracts');
+        const contracts = await response.json();
+        
+        console.log("Contracts found:", contracts.length);
+        
+        if (contracts.length === 0) {
+            container.innerHTML = '<div class="placeholder-panel"><p>No contracts yet. Upload your first contract!</p></div>';
+            return;
+        }
+        
+        container.innerHTML = contracts.map(c => `
+            <div class="activity-item" style="cursor:pointer;" onclick="viewContractAnalysis(${c.id})">
+                <div class="activity-status status-scanned"></div>
+                <div class="activity-info">
+                    <h4>${escapeHtml(c.title)}</h4>
+                    <span>Score: ${c.fairness_score}/100 • ${new Date(c.created_at).toLocaleDateString()}</span>
+                </div>
+                <div class="activity-score" style="color: ${c.fairness_score >= 80 ? 'var(--success)' : c.fairness_score >= 60 ? 'var(--amber)' : 'var(--danger)'}">
+                    ${c.fairness_score}
+                </div>
+                <div class="activity-actions" onclick="event.stopPropagation()">
+                    <button class="btn btn-ghost btn-small" onclick="deleteContractFromPage(${c.id})">Delete</button>
+                </div>
+            </div>
+        `).join('');
+    } catch(e) { 
+        console.error(e); 
+        container.innerHTML = '<div class="placeholder-panel"><p>Error loading contracts. Please refresh.</p></div>';
+    }
+}
+// ========== MATCHING PAGE FUNCTIONS ==========
+function refreshMatches() {
+    if (currentUserProfile === 'freelancer') {
+        loadInvestorMatches();
+    } else {
+        loadProjectMatches();
+    }
+}
+
+// ========== MATCHING PAGE FUNCTIONS - REAL DATA ==========
+
+async function loadInvestorMatches() {
+    const container = document.getElementById('investorMatchesList');
+    const loadingDiv = document.getElementById('matchesLoading');
+    
+    if (!container) return;
+    
+    loadingDiv.style.display = 'block';
+    
+    try {
+        // Get pending match requests for freelancer
+        const matchesRes = await fetch('/api/matches/pending', { credentials: 'include' });
+        const matchesData = await matchesRes.json();
+        const pendingMatches = matchesData.pending_matches || [];
+        
+        console.log("Pending matches:", pendingMatches);
+        
+        if (pendingMatches.length > 0) {
+            // Show pending match requests section
+            container.innerHTML = `
+                <div style="margin-bottom: 24px;">
+                    <h3 style="font-family: Orbitron; font-size: 0.9rem; margin-bottom: 16px; color: var(--teal);">📋 Pending Match Requests</h3>
+                    ${pendingMatches.map(match => `
+                        <div class="activity-item" style="background: rgba(0,212,170,0.08); border-left: 3px solid var(--teal); margin-bottom: 12px;">
+                            <div class="activity-status status-matched"></div>
+                            <div class="activity-info">
+                                <h4>💰 ${escapeHtml(match.investor_name)} wants to invest!</h4>
+                                <span>Project: <strong>${escapeHtml(match.project_title)}</strong> • Match Score: ${match.match_score}%</span>
+                                <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;">
+                                    Requested: ${new Date(match.created_at).toLocaleDateString()}
+                                </div>
+                            </div>
+                            <div class="activity-actions">
+                                <button class="btn btn-success btn-small" onclick="respondToMatch(${match.id}, 'accepted')" style="margin-right: 8px;">
+                                    ✅ Accept
+                                </button>
+                                <button class="btn btn-danger btn-small" onclick="respondToMatch(${match.id}, 'rejected')">
+                                    ❌ Decline
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="placeholder-panel">
+                    <p>📊 No pending match requests. Investors will appear here when they request to match with your projects!</p>
+                    <button class="btn btn-primary btn-small" onclick="openUploadProject()" style="margin-top: 10px;">+ Upload More Projects</button>
+                </div>
+            `;
+        }
+        
+        // Update stats
+        document.getElementById('totalMatches').innerText = pendingMatches.length;
+        
+    } catch (error) {
+        console.error('Error loading matches:', error);
+        container.innerHTML = '<div class="placeholder-panel"><p>Error loading matches. Please try again.</p></div>';
+    }
+    
+    loadingDiv.style.display = 'none';
+}
+
+// Respond to match request
+async function respondToMatch(matchId, status) {
+    showToast(`Processing ${status}...`, 'info');
+    
+    try {
+        const response = await fetch(`/api/matches/${matchId}/respond`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: status })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showToast(`✅ Match ${status === 'accepted' ? 'accepted' : 'declined'}!`, 'success');
+            
+            if (status === 'accepted') {
+                showToast('You can now message the investor in the Messages page!', 'info');
+            }
+            
+            // Reload matches to update the list
+            loadInvestorMatches();
+            loadNotifications();
+        } else {
+            showToast(data.error || 'Failed to respond', 'error');
+        }
+    } catch(e) {
+        console.error('Error responding to match:', e);
+        showToast('Failed to respond', 'error');
+    }
+}
+
+async function loadProjectMatches() {
+    const container = document.getElementById('projectMatchesList');
+    const loadingDiv = document.getElementById('matchesLoading');
+    
+    if (!container) return;
+    
+    loadingDiv.style.display = 'block';
+    container.innerHTML = '';
+    
+    try {
+        // Get all public projects with owner info
+        const response = await fetch('/api/projects/public-with-owner', { credentials: 'include' });
+        const data = await response.json();
+        const projects = data.projects || [];
+        
+        console.log("Projects from API:", projects);
+        
+        if (projects.length === 0) {
+            container.innerHTML = '<div class="placeholder-panel"><p>🔍 No projects available yet. Check back soon!</p></div>';
+            document.getElementById('investorProjectCount').innerText = '0';
+            document.getElementById('investorAvgScore').innerText = '0';
+            document.getElementById('investorAvgBudget').innerHTML = '$0';
+            loadingDiv.style.display = 'none';
+            return;
+        }
+        
+        document.getElementById('investorProjectCount').innerText = projects.length;
+        const avgScore = Math.round(projects.reduce((s, p) => s + p.originality_score, 0) / projects.length);
+        document.getElementById('investorAvgScore').innerText = avgScore;
+        
+        container.innerHTML = projects.map(project => `
+            <div class="activity-item" style="cursor:pointer;" onclick="viewProjectAnalysis(${project.id})">
+                <div class="activity-status status-scanned"></div>
+                <div class="activity-info">
+                    <h4>${escapeHtml(project.title)}</h4>
+                    <span>Score: ${project.originality_score}% • Budget: ${escapeHtml(project.budget || 'Negotiable')} • ${escapeHtml(project.category || 'General')}</span>
+                    <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;">
+                        📅 ${new Date(project.created_at).toLocaleDateString()} • Owner: ${escapeHtml(project.owner_username || 'Freelancer')}
+                    </div>
+                </div>
+                <div class="activity-score" style="color: ${project.originality_score >= 85 ? 'var(--success)' : project.originality_score >= 70 ? 'var(--teal)' : 'var(--amber)'}">
+                    ${project.originality_score}
+                </div>
+                <div class="activity-actions" onclick="event.stopPropagation()">
+                    <button class="btn btn-primary btn-small" onclick="requestMatchWithFreelancer(${project.id}, '${escapeHtml(project.title)}', ${project.user_id})">
+                        💼 Request Match
+                    </button>
+                </div>
+            </div>
+        `).join('');
+        
+    } catch (error) {
+        console.error('Error loading projects:', error);
+        container.innerHTML = '<div class="placeholder-panel"><p>Error loading projects. Please try again.</p></div>';
+    }
+    
+    loadingDiv.style.display = 'none';
+}
+
+// ========== MATCH REQUEST FUNCTIONS ==========
+
+async function requestMatchWithInvestor(investorId, projectId) {
+    if (!projectId) {
+        showToast('Please select a project first', 'warning');
+        return;
+    }
+    
+    showToast('Sending match request...', 'info');
+    
+    try {
+        const response = await fetch('/api/matches/request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                investor_id: investorId,
+                project_id: projectId,
+                match_score: 85  // You can calculate this properly
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showToast('✅ Match request sent! The investor will be notified.', 'success');
+        } else {
+            showToast(data.error || 'Failed to send match request', 'error');
+        }
+    } catch(e) {
+        console.error('Match request error:', e);
+        showToast('Failed to send match request', 'error');
+    }
+}
+
+async function requestMatchWithFreelancer(projectId, projectTitle, freelancerId) {
+    console.log("Requesting match - Project ID:", projectId, "Freelancer ID:", freelancerId, "Title:", projectTitle);
+    
+    if (!projectId || !freelancerId) {
+        showToast('Missing project or freelancer information', 'error');
+        return;
+    }
+    
+    showToast('Sending match request...', 'info');
+    
+    try {
+        const response = await fetch('/api/matches/request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                project_id: parseInt(projectId),
+                investor_id: currentUser.id,
+                match_score: 85
+            })
+        });
+        
+        const data = await response.json();
+        console.log("Match response:", data);
+        
+        if (data.success) {
+            showToast('✅ Match request sent! The freelancer will be notified.', 'success');
+        } else {
+            showToast(data.error || 'Failed to send match request', 'error');
+        }
+    } catch(e) {
+        console.error('Match request error:', e);
+        showToast('Failed to send match request: ' + e.message, 'error');
+    }
+}
+
+async function makeInvestmentOffer(projectId, projectTitle) {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:450px;width:90%;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove()" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            
+            <h2 style="font-family:Orbitron;margin-bottom:8px;">💰 Make an Offer</h2>
+            <p style="color:var(--text-muted);margin-bottom:24px;">For: ${escapeHtml(projectTitle)}</p>
+            
+            <div class="form-group">
+                <label>Investment Amount</label>
+                <input type="text" id="offerAmount" placeholder="e.g., $50,000" class="auth-input">
+            </div>
+            <div class="form-group">
+                <label>Equity Percentage</label>
+                <input type="text" id="offerEquity" placeholder="e.g., 10%" class="auth-input">
+            </div>
+            <div class="form-group">
+                <label>Message to Freelancer</label>
+                <textarea id="offerMessage" rows="3" placeholder="Why are you interested in this project?" class="auth-input" style="resize:none;"></textarea>
+            </div>
+            
+            <button class="btn btn-primary" onclick="submitOffer(${projectId}, '${escapeHtml(projectTitle)}')" style="width:100%;margin-top:8px;">Submit Offer</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+async function submitOffer(projectId, projectTitle) {
+    const amount = document.getElementById('offerAmount')?.value;
+    const equity = document.getElementById('offerEquity')?.value;
+    const message = document.getElementById('offerMessage')?.value;
+    
+    if (!amount || !equity) {
+        showToast('Please fill in amount and equity', 'warning');
+        return;
+    }
+    
+    showToast('Submitting offer...', 'info');
+    
+    try {
+        const response = await fetch('/api/offers', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                project_id: projectId,
+                amount: amount,
+                equity: equity,
+                message: message
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            document.querySelector('.profile-modal')?.remove();
+            showToast(`✅ Offer submitted! AI Score: ${data.offer_score}/100`, 'success');
+        } else {
+            showToast(data.error || 'Failed to submit offer', 'error');
+        }
+    } catch(e) {
+        console.error('Offer error:', e);
+        showToast('Failed to submit offer', 'error');
+    }
+}
+
+async function submitOffer(projectId, projectTitle) {
+    const amount = document.getElementById('offerAmount')?.value;
+    const equity = document.getElementById('offerEquity')?.value;
+    const message = document.getElementById('offerMessage')?.value;
+    
+    if (!amount || !equity) {
+        showToast('Please fill in amount and equity', 'warning');
+        return;
+    }
+    
+    showToast('Submitting offer...', 'info');
+    
+    try {
+        const response = await fetch('/api/offers', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                project_id: projectId,
+                amount: amount,
+                equity: equity,
+                message: message
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            document.querySelector('.profile-modal')?.remove();
+            showToast(`✅ Offer submitted! AI Score: ${data.offer_score}/100`, 'success');
+        } else {
+            showToast(data.error || 'Failed to submit offer', 'error');
+        }
+    } catch(e) {
+        showToast('Failed to submit offer', 'error');
+    }
+}
+
+function submitOffer(projectId, projectTitle) {
+    const amount = document.getElementById('offerAmount')?.value;
+    const equity = document.getElementById('offerEquity')?.value;
+    const message = document.getElementById('offerMessage')?.value;
+    
+    if (!amount || !equity) {
+        showToast('Please fill in amount and equity', 'warning');
+        return;
+    }
+    
+    document.querySelector('.profile-modal')?.remove();
+    
+    // Simulate AI scoring the offer
+    const offerScore = Math.floor(Math.random() * 25) + 70;
+    
+    showToast(`✅ Offer sent to ${projectTitle}!\n\nAmount: ${amount}\nEquity: ${equity}\nOffer Score: ${offerScore}/100`, 'success');
+    
+    // Here you would save the offer to the database
+    console.log('Offer submitted:', { projectId, amount, equity, message, offerScore });
+}
+
+function connectWithInvestor(investorName, matchScore) {
+    showToast(`📨 Connection request sent to ${investorName}!\n\nMatch Score: ${matchScore}%`, 'success');
+}
+
+// ========== MESSAGING FUNCTIONS ==========
+let currentConversation = null;
+
+// ========== REAL CHAT FUNCTIONS ==========
+
+async function loadMessages() {
+    const container = document.getElementById('conversationsList');
+    if (!container) return;
+    
+    try {
+        // Get conversations from chat API ONLY (not from matches)
+        const conversationsRes = await fetch('/api/chat/conversations', { credentials: 'include' });
+        const conversationsData = await conversationsRes.json();
+        let conversations = conversationsData.conversations || [];
+        
+        // Filter out any conversation with empty name or ID 1
+        conversations = conversations.filter(conv => {
+            return conv.user_id && 
+                   conv.user_id !== 1 && 
+                   conv.name && 
+                   conv.name !== 'User' &&
+                   conv.name !== 'admin';
+        });
+        
+        if (conversations.length === 0) {
+            container.innerHTML = `
+                <div class="placeholder-panel">
+                    <p>💬 No conversations yet. When you accept a match request, start chatting here!</p>
+                    <button class="btn btn-primary btn-small" onclick="showLexPage('matches')" style="margin-top: 10px;">🤝 Find Matches</button>
+                </div>
+            `;
+            document.getElementById('unreadCount').innerText = '0';
+            document.getElementById('activeChats').innerText = '0';
+            return;
+        }
+        
+        const unreadCount = conversations.reduce((sum, c) => sum + (c.unread_count || 0), 0);
+        document.getElementById('unreadCount').innerText = unreadCount;
+        document.getElementById('activeChats').innerText = conversations.length;
+        
+        container.innerHTML = conversations.map(conv => `
+            <div class="activity-item" style="cursor:pointer;" onclick="openConversation(${conv.user_id}, '${escapeHtml(conv.name)}')">
+                <div class="activity-status" style="background: ${conv.unread_count > 0 ? 'var(--teal)' : 'var(--text-muted)'}"></div>
+                <div class="activity-info">
+                    <h4>💬 ${escapeHtml(conv.name)}</h4>
+                    <span>${escapeHtml(conv.last_message?.substring(0, 60) || 'Start a conversation!')}</span>
+                </div>
+                <div class="activity-score">
+                    ${conv.unread_count > 0 ? `${conv.unread_count} new` : ''}
+                </div>
+                <div class="activity-actions" onclick="event.stopPropagation()">
+                    <button class="btn btn-primary btn-small" onclick="openConversation(${conv.user_id}, '${escapeHtml(conv.name)}')">Message</button>
+                </div>
+            </div>
+        `).join('');
+        
+    } catch(e) {
+        console.error('Error loading messages:', e);
+        container.innerHTML = '<div class="placeholder-panel"><p>Error loading messages. Please refresh.</p></div>';
+    }
+}
+
+async function openConversation(userId, name) {
+    console.log("Opening conversation with user ID:", userId, "Name:", name);
+    
+    // Remove any existing chat modal first
+    const existingModal = document.querySelector('.profile-modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.id = 'chatModal';  // Give it an ID
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;flex-direction:column;';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border-bottom:1px solid var(--border);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <button onclick="closeChatModal()" style="background:transparent;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;">←</button>
+                <h3 style="font-family:Orbitron;">💬 ${escapeHtml(name)}</h3>
+            </div>
+            <button onclick="closeChatModal()" style="background:transparent;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;">&times;</button>
+        </div>
+        <div id="chatMessages" style="flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;">
+            <div style="text-align:center;color:var(--text-muted);">Loading messages...</div>
+        </div>
+        <div style="padding:16px 20px;border-top:1px solid var(--border);display:flex;gap:12px;">
+            <input type="text" id="chatInput" placeholder="Type a message..." style="flex:1;padding:12px;background:var(--bg-deep);border:1px solid var(--border);border-radius:12px;color:white;">
+            <button onclick="sendRealMessage(${userId})" class="btn btn-primary">Send</button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Focus on input after modal opens
+    setTimeout(() => {
+        const input = document.getElementById('chatInput');
+        if (input) input.focus();
+    }, 100);
+    
+    // Load messages
+    await loadMessagesBetweenUsers(userId);
+}
+
+// Add this function to properly close the chat modal
+function closeChatModal() {
+    const modal = document.getElementById('chatModal');
+    if (modal) {
+        modal.remove();
+    }
+    // Also remove any other modals with class profile-modal
+    const otherModals = document.querySelectorAll('.profile-modal');
+    otherModals.forEach(modal => modal.remove());
+}
+
+async function loadMessagesBetweenUsers(userId) {
+    const container = document.getElementById('chatMessages');
+    if (!container) return;
+    
+    try {
+        const response = await fetch(`/api/chat/messages/${userId}`, { credentials: 'include' });
+        const data = await response.json();
+        const messages = data.messages || [];
+        
+        if (messages.length === 0) {
+            container.innerHTML = '<div style="text-align:center;color:var(--text-muted);">No messages yet. Send a message to start the conversation!</div>';
+            return;
+        }
+        
+        container.innerHTML = messages.map(msg => `
+            <div class="lex-message ${msg.sender_id === currentUser?.id ? 'user' : 'bot'}">
+                <strong>${msg.sender_name}:</strong><br>
+                ${escapeHtml(msg.content)}
+                <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">${new Date(msg.created_at).toLocaleTimeString()}</div>
+            </div>
+        `).join('');
+        
+        container.scrollTop = container.scrollHeight;
+        
+    } catch(e) {
+        console.error('Error loading messages:', e);
+        container.innerHTML = '<div style="text-align:center;color:red;">Error loading messages</div>';
+    }
+}
+
+async function sendRealMessage(receiverId) {
+    console.log("Sending message to receiver ID:", receiverId);
+    
+    // Find the input in the current modal
+    const modal = document.getElementById('chatModal');
+    if (!modal) {
+        console.error("No chat modal found!");
+        showToast('Chat window not found. Please reopen the conversation.', 'error');
+        return;
+    }
+    
+    const input = modal.querySelector('#chatInput');
+    if (!input) {
+        console.error("Input not found in modal!");
+        showToast('Message input not found. Please reopen the conversation.', 'error');
+        return;
+    }
+    
+    const message = input.value.trim();
+    
+    if (!message) {
+        showToast('Please enter a message', 'warning');
+        return;
+    }
+    
+    // Clear input immediately
+    input.value = '';
+    
+    // Disable send button
+    const sendBtn = modal.querySelector('.btn-primary');
+    if (sendBtn) {
+        sendBtn.disabled = true;
+        sendBtn.textContent = 'Sending...';
+    }
+    
+    try {
+        const response = await fetch('/api/chat/send-message', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+                receiver_id: parseInt(receiverId),
+                content: message
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            await loadMessagesBetweenUsers(receiverId);
+        } else {
+            showToast(data.error || 'Failed to send message', 'error');
+            input.value = message; // Restore message
+        }
+    } catch(e) {
+        console.error('Send error:', e);
+        showToast('Failed to send message', 'error');
+        input.value = message; // Restore message
+    } finally {
+        if (sendBtn) {
+            sendBtn.disabled = false;
+            sendBtn.textContent = 'Send';
+        }
+    }
+}
+
+function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    if (!message) return;
+    
+    const container = document.getElementById('chatMessages');
+    const userMsg = document.createElement('div');
+    userMsg.className = 'lex-message user';
+    userMsg.textContent = message;
+    container.appendChild(userMsg);
+    input.value = '';
+    container.scrollTop = container.scrollHeight;
+    
+    // Simulate reply after 1 second
+    setTimeout(() => {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'lex-message bot';
+        botMsg.textContent = "Thanks for your message! I'll get back to you soon.";
+        container.appendChild(botMsg);
+        container.scrollTop = container.scrollHeight;
+    }, 1000);
+}
+async function editProject(projectId) {
+    // Fetch current project data
+    const response = await fetch(`/api/projects/${projectId}`, { credentials: 'include' });
+    const data = await response.json();
+    const project = data.project;
+    
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:450px;width:90%;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove()" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            <h2 style="font-family:Orbitron;margin-bottom:20px;">✏️ Edit Project</h2>
+            <div class="form-group"><label>Title</label><input type="text" id="editTitle" value="${escapeHtml(project.title)}" class="auth-input"></div>
+            <div class="form-group"><label>Description</label><textarea id="editDesc" rows="4" class="auth-input">${escapeHtml(project.full_description || project.description)}</textarea></div>
+            <div class="form-group"><label>Budget</label><input type="text" id="editBudget" value="${escapeHtml(project.budget || '')}" class="auth-input" placeholder="$30,000 - $50,000"></div>
+            <div class="form-group"><label>Category</label>
+                <select id="editCategory" class="auth-input">
+                    <option value="AI/ML" ${project.category === 'AI/ML' ? 'selected' : ''}>AI/ML</option>
+                    <option value="Blockchain" ${project.category === 'Blockchain' ? 'selected' : ''}>Blockchain</option>
+                    <option value="SaaS" ${project.category === 'SaaS' ? 'selected' : ''}>SaaS</option>
+                    <option value="Mobile App" ${project.category === 'Mobile App' ? 'selected' : ''}>Mobile App</option>
+                    <option value="E-commerce" ${project.category === 'E-commerce' ? 'selected' : ''}>E-commerce</option>
+                    <option value="HealthTech" ${project.category === 'HealthTech' ? 'selected' : ''}>HealthTech</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Status</label>
+                <select id="editStatus" class="auth-input">
+                    <option value="active" ${project.status === 'active' ? 'selected' : ''}>🟢 Active</option>
+                    <option value="draft" ${project.status === 'draft' ? 'selected' : ''}>📝 Draft</option>
+                    <option value="completed" ${project.status === 'completed' ? 'selected' : ''}>✅ Completed</option>
+                    <option value="archived" ${project.status === 'archived' ? 'selected' : ''}>📦 Archived</option>
+                </select>
+            </div>
+            <div style="display:flex;gap:12px;margin-top:16px;">
+                <button class="btn btn-primary" onclick="saveProjectEdit(${projectId})" style="flex:1;">Save Changes</button>
+                <button class="btn btn-secondary" onclick="this.closest('.profile-modal').remove()" style="flex:1;">Cancel</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+async function saveProjectEdit(projectId) {
+    const title = document.getElementById('editTitle')?.value;
+    const description = document.getElementById('editDesc')?.value;
+    const budget = document.getElementById('editBudget')?.value;
+    const category = document.getElementById('editCategory')?.value;
+    const status = document.getElementById('editStatus')?.value;
+    
+    if (!title || !description) {
+        showToast('Title and description are required', 'warning');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/projects/${projectId}`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, description, budget, category, status })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            showToast('Project updated successfully!', 'success');
+            document.querySelector('.profile-modal')?.remove();
+            loadProjects();
+            loadProjectsPage();
+        } else {
+            showToast(result.error || 'Update failed', 'error');
+        }
+    } catch (error) {
+        showToast('Failed to update project', 'error');
+    }
+}
+async function loadNotifications() {
+    try {
+        const response = await fetch('/api/notifications', { credentials: 'include' });
+        const data = await response.json();
+        const notifications = data.notifications || [];
+        const container = document.querySelector('.notification-dropdown .notification-items');
+        const count = notifications.filter(n => !n.is_read).length;
+        
+        document.querySelector('.notification-dot').style.display = count > 0 ? 'block' : 'none';
+        
+        if (container) {
+            if (notifications.length === 0) {
+                container.innerHTML = '<div class="notification-item"><div class="notification-item-content"><p>No notifications</p></div></div>';
+            } else {
+                container.innerHTML = notifications.map(n => `
+                    <div class="notification-item ${n.is_read ? '' : 'unread'}" onclick="handleNotificationClick(${n.id}, '${n.link || ''}', '${n.type}')" style="${!n.is_read ? 'background: var(--teal-dim);' : ''} cursor: pointer;">
+                        <div class="notification-item-icon">
+                            ${getNotificationIcon(n.type)}
+                        </div>
+                        <div class="notification-item-content">
+                            <h5>${escapeHtml(n.title)}</h5>
+                            <p>${escapeHtml(n.message)}</p>
+                            <span class="notification-item-time">${formatTimeAgo(n.created_at)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+    } catch(e) { console.error(e); }
+}
+async function connectWithInvestor(investorName, matchScore, projectId) {
+    showToast('Sending connection request...', 'info');
+    
+    try {
+        const response = await fetch('/api/matches', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                investor_name: investorName,
+                match_score: matchScore,
+                project_id: projectId
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showToast(`✅ Connected with ${investorName}!`, 'success');
+            
+            // Create notification
+            await fetch('/api/notifications', {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: 'New Connection!',
+                    message: `You connected with ${investorName} with a ${matchScore}% match score.`,
+                    type: 'match'
+                })
+            });
+        } else {
+            showToast('Connection failed', 'error');
+        }
+    } catch(e) {
+        showToast('Connection failed', 'error');
+    }
+}
+async function loadOffers(projectId) {
+    try {
+        const response = await fetch('/api/offers', { credentials: 'include' });
+        const data = await response.json();
+        const allOffers = data.offers || [];
+        const projectOffers = allOffers.filter(o => o.project_id === projectId);
+        
+        const container = document.getElementById(`offersList-${projectId}`);
+        if (!container) return;
+        
+        if (projectOffers.length === 0) {
+            container.innerHTML = '<div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:16px;text-align:center;"><p style="color:var(--text-muted);">No offers yet. Be the first to make an offer!</p></div>';
+            return;
+        }
+        
+        container.innerHTML = projectOffers.map(offer => `
+            <div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:12px;margin-bottom:10px;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                    <strong style="color:var(--cyan);">${escapeHtml(offer.investor_name)}</strong>
+                    <span style="color:${offer.offer_score >= 80 ? 'var(--success)' : offer.offer_score >= 60 ? 'var(--amber)' : 'var(--danger)'}">Score: ${offer.offer_score}/100</span>
+                </div>
+                <div style="display:flex;gap:12px;margin-bottom:8px;">
+                    <span>💰 ${escapeHtml(offer.amount)}</span>
+                    <span>📊 ${escapeHtml(offer.equity)} equity</span>
+                </div>
+                <p style="color:var(--text-secondary);font-size:0.8rem;">💬 ${escapeHtml(offer.message || 'No message')}</p>
+                ${offer.status === 'pending' && currentUserProfile === 'freelancer' ? `
+                    <div style="display:flex;gap:8px;margin-top:10px;">
+                        <button class="btn btn-success btn-small" onclick="respondToOffer(${offer.id}, 'accepted')">✅ Accept</button>
+                        <button class="btn btn-danger btn-small" onclick="respondToOffer(${offer.id}, 'rejected')">❌ Reject</button>
+                    </div>
+                ` : `
+                    <div style="margin-top:8px;">
+                        <span style="padding:4px 8px;background:${offer.status === 'accepted' ? 'rgba(46,213,115,0.2)' : offer.status === 'rejected' ? 'rgba(255,71,87,0.2)' : 'rgba(255,184,0,0.2)'};border-radius:8px;font-size:0.7rem;">
+                            Status: ${offer.status}
+                        </span>
+                    </div>
+                `}
+            </div>
+        `).join('');
+    } catch(e) { 
+        console.error(e); 
+        const container = document.getElementById(`offersList-${projectId}`);
+        if (container) {
+            container.innerHTML = '<div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:16px;text-align:center;"><p style="color:var(--text-muted);">Error loading offers</p></div>';
+        }
+    }
+}
+
+async function respondToOffer(offerId, status) {
+    try {
+        const response = await fetch(`/api/offers/${offerId}/respond`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: status })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showToast(`Offer ${status}!`, 'success');
+            location.reload();
+        } else {
+            showToast('Failed to respond', 'error');
+        }
+    } catch(e) {
+        showToast('Failed to respond', 'error');
+    }
+}
+
+function showAnalysisResultModal(title, score, analysis) {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    
+    const scoreColor = score >= 80 ? 'var(--success)' : score >= 60 ? 'var(--amber)' : 'var(--danger)';
+    const scoreText = score >= 80 ? 'Excellent' : score >= 60 ? 'Fair' : 'Needs Review';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:450px;width:90%;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove()" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            
+            <div style="text-align:center;">
+                <div style="font-size:48px;margin-bottom:8px;">📄</div>
+                <h2 style="font-family:Orbitron;margin-bottom:8px;">Analysis Complete!</h2>
+                <p style="color:var(--text-muted);font-size:0.85rem;">${escapeHtml(title)}</p>
+            </div>
+            
+            <div style="text-align:center;margin:24px 0;">
+                <div style="font-size:14px;color:var(--text-muted);margin-bottom:8px;">Fairness Score</div>
+                <div style="font-size:64px;font-weight:700;color:${scoreColor};">${score}<span style="font-size:24px;">/100</span></div>
+                <div style="margin-top:8px;color:${scoreColor};">${scoreText}</div>
+            </div>
+            
+            <div style="background:rgba(0,0,0,0.2);border-radius:16px;padding:16px;margin:16px 0;">
+                <strong style="color:var(--teal);">📋 Summary</strong>
+                <p style="color:var(--text-secondary);font-size:0.85rem;margin-top:8px;">${escapeHtml(analysis?.summary || 'Analysis complete. Click "View Details" for full insights.')}</p>
+            </div>
+            
+            <div style="display:flex;gap:12px;">
+                <button class="btn btn-primary" onclick="viewContractAnalysis(${analysis?.contract_id}); this.closest('.profile-modal').remove();" style="flex:1;">View Details</button>
+                <button class="btn btn-secondary" onclick="this.closest('.profile-modal').remove()" style="flex:1;">Close</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// ========== CONFIRMATION MODAL ==========
+function showConfirmModal(title, message, onConfirm, onCancel = null) {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:400px;width:90%;text-align:center;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove()" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            <div style="font-size:48px;margin-bottom:16px;">⚠️</div>
+            <h2 style="font-family:Orbitron;margin-bottom:12px;">${escapeHtml(title)}</h2>
+            <p style="color:var(--text-secondary);margin-bottom:24px;">${escapeHtml(message)}</p>
+            <div style="display:flex;gap:12px;">
+                <button class="btn btn-danger" id="confirmDeleteBtn" style="flex:1;background:var(--danger);color:white;">Delete</button>
+                <button class="btn btn-secondary" id="cancelDeleteBtn" style="flex:1;">Cancel</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Add event listeners
+    document.getElementById('confirmDeleteBtn').onclick = () => {
+        modal.remove();
+        if (onConfirm) onConfirm();
+    };
+    
+    document.getElementById('cancelDeleteBtn').onclick = () => {
+        modal.remove();
+        if (onCancel) onCancel();
+    };
+}
+// ========== CHANGE PASSWORD MODAL ==========
+function showChangePasswordModal() {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:420px;width:90%;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove()" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            <h2 style="font-family:Orbitron;margin-bottom:20px;">🔐 Change Password</h2>
+            
+            <div class="form-group">
+                <label>Current Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="currentPassword" class="auth-input" placeholder="Enter current password">
+                    <button type="button" class="toggle-password" onclick="togglePassword('currentPassword', this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>New Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="newPassword" class="auth-input" placeholder="Min 8 chars, 1 uppercase, 1 number, 1 special">
+                    <button type="button" class="toggle-password" onclick="togglePassword('newPassword', this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Confirm New Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="confirmPassword" class="auth-input" placeholder="Confirm new password">
+                    <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword', this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="passwordStrength" style="font-size:0.7rem;margin-top:-10px;margin-bottom:15px;color:var(--text-muted);"></div>
+            
+            <button class="btn btn-primary" onclick="changePassword()" style="width:100%;">Update Password</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    
+    // Real-time password strength indicator
+    const newPasswordInput = document.getElementById('newPassword');
+    if (newPasswordInput) {
+        newPasswordInput.addEventListener('input', function() {
+            const strength = checkPasswordStrength(this.value);
+            const strengthDiv = document.getElementById('passwordStrength');
+            if (strengthDiv) {
+                strengthDiv.innerHTML = strength.message;
+                strengthDiv.style.color = strength.color;
+            }
+        });
+    }
+}
+
+function checkPasswordStrength(password) {
+    let score = 0;
+    let message = '';
+    
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[a-z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+    
+    if (score <= 2) message = '⚠️ Weak password - add uppercase, numbers, or special characters';
+    else if (score <= 4) message = '⚠️ Medium password - could be stronger';
+    else message = '✅ Strong password!';
+    
+    const color = score <= 2 ? 'var(--danger)' : score <= 4 ? 'var(--amber)' : 'var(--success)';
+    return { message, color };
+}
+
+async function changePassword() {
+    const currentPassword = document.getElementById('currentPassword')?.value;
+    const newPassword = document.getElementById('newPassword')?.value;
+    const confirmPassword = document.getElementById('confirmPassword')?.value;
+    
+    if (!currentPassword || !newPassword) {
+        showToast('Please fill all fields', 'warning');
+        return;
+    }
+    
+    if (newPassword !== confirmPassword) {
+        showToast('New passwords do not match', 'warning');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/auth/change-password', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                current_password: currentPassword,
+                new_password: newPassword,
+                confirm_password: confirmPassword
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            showToast('Password changed successfully!', 'success');
+            document.querySelector('.profile-modal')?.remove();
+            document.body.style.overflow = '';
+        } else {
+            showToast(data.error || 'Password change failed', 'error');
+        }
+    } catch(e) {
+        showToast('Password change failed', 'error');
+    }
+}
+async function connectWithInvestor(investorName, matchScore, projectId = null) {
+    console.log("Connecting with:", investorName, "Score:", matchScore, "Project ID:", projectId);
+    
+    // If projectId is not provided, try to get the first project
+    if (!projectId) {
+        try {
+            const projectsRes = await fetch('/api/projects');
+            const projectsData = await projectsRes.json();
+            const projects = projectsData.projects || [];
+            
+            if (projects.length === 0) {
+                showToast('Please create a project first before connecting with investors', 'warning');
+                return;
+            }
+            projectId = projects[0].id;
+            console.log("Using project ID:", projectId);
+        } catch(e) {
+            showToast('Error loading projects. Please create a project first.', 'error');
+            return;
+        }
+    }
+    
+    showToast('Saving match...', 'info');
+    
+    try {
+        const response = await fetch('/api/matches', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                investor_name: investorName,
+                match_score: matchScore,
+                project_id: projectId
+            })
+        });
+        
+        const data = await response.json();
+        console.log("Match API response:", data);
+        
+        if (data.success) {
+            showToast(`✅ Connected with ${investorName}! Match saved.`, 'success');
+            
+            // Also create a notification
+            try {
+                await fetch('/api/notifications', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: currentUser?.id,
+                        title: 'New Match!',
+                        message: `You connected with ${investorName} (${matchScore}% match)`,
+                        type: 'match'
+                    })
+                });
+            } catch(e) {
+                console.log("Notification error:", e);
+            }
+        } else {
+            showToast(data.error || 'Connection failed', 'error');
+        }
+    } catch(e) {
+        console.error('Connect error:', e);
+        showToast('Connection failed: ' + e.message, 'error');
+    }
+}
+// ========== NOTIFICATION FUNCTIONS ==========
+
+// Load notifications from server
+async function loadNotifications() {
+    try {
+        const response = await fetch('/api/notifications');
+        const data = await response.json();
+        const notifications = data.notifications || [];
+        
+        // Update notification dropdown
+        const container = document.getElementById('notificationsList');
+        if (container) {
+            if (notifications.length === 0) {
+                container.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-muted);">No notifications yet</div>';
+            } else {
+                container.innerHTML = notifications.map(n => `
+                    <div class="notification-item ${n.is_read ? '' : 'unread'}" onclick="markNotificationRead(${n.id})" style="${!n.is_read ? 'background: var(--teal-dim);' : ''}">
+                        <div class="notification-item-icon">
+                            ${getNotificationIcon(n.type)}
+                        </div>
+                        <div class="notification-item-content">
+                            <h5>${escapeHtml(n.title)}</h5>
+                            <p>${escapeHtml(n.message)}</p>
+                            <span class="notification-item-time">${formatTimeAgo(n.created_at)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        // Update unread count on bell
+        await updateUnreadCount();
+        
+    } catch(e) {
+        console.error('Error loading notifications:', e);
+    }
+}
+
+// Get icon based on notification type
+function getNotificationIcon(type) {
+    const icons = {
+        'offer': '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2v4M12 22v-4M4 12H2M6 12H4M20 12h-2M22 12h-2M19.07 4.93l-2.83 2.83M4.93 19.07l2.83-2.83M19.07 19.07l-2.83-2.83M4.93 4.93l2.83 2.83"/><circle cx="12" cy="12" r="3"/></svg>',
+        'match': '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M20 12v8H4v-8M12 2v4M4 6h16l-4 4H8L4 6z"/></svg>',
+        'message': '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+        'default': '<svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
+    };
+    return icons[type] || icons['default'];
+}
+
+// Format time ago
+function formatTimeAgo(dateString) {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins} min ago`;
+    if (diffHours < 24) return `${diffHours} hour ago`;
+    return `${diffDays} day ago`;
+}
+
+// Update unread count on bell icon
+async function updateUnreadCount() {
+    try {
+        const response = await fetch('/api/notifications/unread-count');
+        const data = await response.json();
+        const dot = document.querySelector('.notification-dot');
+        if (dot) {
+            dot.style.display = data.count > 0 ? 'block' : 'none';
+        }
+    } catch(e) {
+        console.error('Error updating unread count:', e);
+    }
+}
+
+// Mark single notification as read
+async function markNotificationRead(notifId) {
+    try {
+        await fetch(`/api/notifications/${notifId}/read`, { method: 'PUT' });
+        loadNotifications(); // Refresh list
+    } catch(e) {
+        console.error('Error marking read:', e);
+    }
+}
+
+// Mark all notifications as read
+async function markAllNotificationsRead() {
+    try {
+        await fetch('/api/notifications/mark-all-read', { method: 'PUT' });
+        loadNotifications(); // Refresh list
+    } catch(e) {
+        console.error('Error marking all read:', e);
+    }
+}
+
+// Start polling for notifications (every 30 seconds)
+let notificationPollingInterval = null;
+
+function startNotificationPolling() {
+    if (notificationPollingInterval) clearInterval(notificationPollingInterval);
+    
+    // Load immediately
+    loadNotifications();
+    
+    // Then every 30 seconds
+    notificationPollingInterval = setInterval(() => {
+        if (currentUser) {
+            updateUnreadCount();
+        }
+    }, 30000);
+}
+
+function stopNotificationPolling() {
+    if (notificationPollingInterval) {
+        clearInterval(notificationPollingInterval);
+        notificationPollingInterval = null;
+    }
+}
+
+// Add this function to update UI based on profile type
+function updateUIByProfileType() {
+    const uploadProjectBtn = document.getElementById('uploadBtn');
+    const analyzeContractBtn = document.getElementById('analyzeBtn');
+    const newProjectBtn = document.getElementById('newProjectBtn');
+    
+    // Get nav links
+    const projectsNavLink = document.querySelector('#lexwiseApp .nav-links li:nth-child(2) a');
+    const contractsNavLink = document.querySelector('#lexwiseApp .nav-links li:nth-child(3) a');
+    
+    if (currentUserProfile === 'freelancer') {
+        // Freelancer: Show Upload Project, Hide Upload Contract
+        if (uploadProjectBtn) uploadProjectBtn.style.display = 'inline-flex';
+        if (analyzeContractBtn) analyzeContractBtn.style.display = 'none';
+        if (newProjectBtn) newProjectBtn.style.display = 'inline-flex';
+        
+        // Show Projects nav, hide Contracts nav
+        if (projectsNavLink) projectsNavLink.closest('li').style.display = 'block';
+        if (contractsNavLink) contractsNavLink.closest('li').style.display = 'none';
+        
+        // Update hero text for freelancer
+        document.getElementById('heroTitle').innerText = 'Showcase Your Ideas. Get Funded.';
+        document.getElementById('heroText').innerText = 'Upload your project, get AI-powered analysis, and connect with investors who want to invest in you.';
+        
+    } else if (currentUserProfile === 'investor') {
+        // Investor: Show Upload Contract, Hide Upload Project
+        if (uploadProjectBtn) uploadProjectBtn.style.display = 'none';
+        if (analyzeContractBtn) analyzeContractBtn.style.display = 'inline-flex';
+        if (newProjectBtn) newProjectBtn.style.display = 'none';
+        
+        // Hide Projects nav, show Contracts nav
+        if (projectsNavLink) projectsNavLink.closest('li').style.display = 'none';
+        if (contractsNavLink) contractsNavLink.closest('li').style.display = 'block';
+        
+        // Update hero text for investor
+        document.getElementById('heroTitle').innerText = 'Find Investment Opportunities.';
+        document.getElementById('heroText').innerText = 'Upload contracts for AI fairness analysis, discover promising projects, and connect with talented freelancers.';
+    }
+}
+
+// Update the updateProfileUI function to call this
+function updateProfileUI() {
+    if (currentUser) {
+        document.getElementById('profileUserName').innerText = currentUser.username;
+        document.getElementById('profileUserEmail').innerText = currentUser.email;
+        document.getElementById('profileAvatarLetter').innerText = currentUser.username.charAt(0).toUpperCase();
+        document.getElementById('navAvatar').innerHTML = currentUser.username.charAt(0).toUpperCase();
+        const badge = document.getElementById('profileTypeBadge');
+        if (badge) badge.innerText = currentUserProfile === 'freelancer' ? '💼 Freelancer' : '💰 Investor';
+    }
+    
+    // Update UI based on profile type
+    updateUIByProfileType();
+}
+async function handleNotificationClick(notificationId, link, type) {
+    // Mark notification as read
+    try {
+        await fetch(`/api/notifications/${notificationId}/read`, { method: 'PUT' });
+    } catch(e) {
+        console.error('Error marking notification as read:', e);
+    }
+    
+    // Redirect based on notification type
+    if (type === 'match') {
+        // Go to matches page to see pending requests
+        showLexPage('matches');
+        showToast('Go to Matches page to accept or decline the request', 'info');
+    } else if (link && link !== '#') {
+        window.location.href = link;
+    } else {
+        // Default: close notification dropdown
+        document.getElementById('notifDropdown')?.classList.remove('active');
+    }
+    
+    // Update unread count
+    updateUnreadCount();
+}
+
+// Forgot Password Modal
+// Forgot Password Modal - Direct reset without email
+function showForgotPasswordModal() {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:400px;width:90%;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove()" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            <h2 style="font-family:Orbitron;margin-bottom:20px;">🔐 Reset Password</h2>
+            <p style="color:var(--text-muted);margin-bottom:20px;">Enter your email to reset your password.</p>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="resetEmail" placeholder="your@email.com" class="auth-input">
+            </div>
+            <div class="form-group" id="newPasswordGroup" style="display:none;">
+                <label>New Password</label>
+                <input type="password" id="newPassword" placeholder="Enter new password" class="auth-input">
+            </div>
+            <div class="form-group" id="confirmPasswordGroup" style="display:none;">
+                <label>Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm new password" class="auth-input">
+            </div>
+            <button class="btn btn-primary" id="resetBtn" onclick="checkUserForReset()" style="width:100%;">Verify Email</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+async function checkUserForReset() {
+    const email = document.getElementById('resetEmail')?.value;
+    
+    if (!email) {
+        showToast('Please enter your email', 'warning');
+        return;
+    }
+    
+    showToast('Checking account...', 'info');
+    
+    try {
+        const response = await fetch('/api/auth/check-user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email })
+        });
+        
+        const data = await response.json();
+        
+        if (data.exists) {
+            // Show password fields
+            document.getElementById('newPasswordGroup').style.display = 'block';
+            document.getElementById('confirmPasswordGroup').style.display = 'block';
+            document.getElementById('resetBtn').innerHTML = 'Reset Password';
+            document.getElementById('resetBtn').onclick = () => resetPasswordDirect(email);
+            showToast('Account found! Enter your new password.', 'success');
+        } else {
+            showToast('No account found with this email', 'error');
+        }
+    } catch(e) {
+        showToast('Error checking account', 'error');
+    }
+}
+
+async function resetPasswordDirect(email) {
+    const newPassword = document.getElementById('newPassword')?.value;
+    const confirmPassword = document.getElementById('confirmPassword')?.value;
+    
+    if (!newPassword || !confirmPassword) {
+        showToast('Please fill in both password fields', 'warning');
+        return;
+    }
+    
+    if (newPassword !== confirmPassword) {
+        showToast('Passwords do not match', 'warning');
+        return;
+    }
+    
+    if (newPassword.length < 6) {
+        showToast('Password must be at least 6 characters', 'warning');
+        return;
+    }
+    
+    showToast('Resetting password...', 'info');
+    
+    try {
+        const response = await fetch('/api/auth/reset-password-direct', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                email: email, 
+                new_password: newPassword 
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            document.querySelector('.profile-modal')?.remove();
+            showToast('✅ Password reset successfully! You can now login with your new password.', 'success');
+            
+            // Create notification for the user (they will see when they login)
+            await fetch('/api/notifications', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: data.user_id,
+                    title: '🔐 Password Changed',
+                    message: 'Your password has been successfully reset. Use your new password to login.',
+                    type: 'security'
+                })
+            });
+        } else {
+            showToast(data.error || 'Failed to reset password', 'error');
+        }
+    } catch(e) {
+        showToast('Failed to reset password', 'error');
+    }
+}
+async function sendPasswordReset() {
+    const email = document.getElementById('resetEmail')?.value;
+    
+    if (!email) {
+        showToast('Please enter your email', 'warning');
+        return;
+    }
+    
+    showToast('Sending reset link...', 'info');
+    
+    try {
+        const response = await fetch('/api/auth/forgot-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            document.querySelector('.profile-modal')?.remove();
+            showToast('✅ Reset link sent! Check your email.', 'success');
+        } else {
+            showToast(data.error || 'Failed to send reset link', 'error');
+        }
+    } catch(e) {
+        showToast('Failed to send reset link', 'error');
+    }
+}
+async function loadRecentActivity() {
+    const container = document.getElementById('recentActivityList');
+    if (!container) return;
+    
+    try {
+        // Get recent projects
+        const projectsRes = await fetch('/api/projects', { credentials: 'include' });
+        const projectsData = await projectsRes.json();
+        const projects = projectsData.projects || [];
+        
+        // Get recent contracts (only for investors)
+        let contracts = [];
+        if (currentUserProfile === 'investor') {
+            const contractsRes = await fetch('/api/contracts', { credentials: 'include' });
+            const contractsData = await contractsRes.json();
+            contracts = contractsData || [];
+        }
+        
+        // Combine and sort by date
+        let activities = [];
+        
+        projects.forEach(p => {
+            activities.push({
+                type: 'project',
+                title: p.title,
+                score: p.originality_score,
+                date: p.created_at,
+                action: 'Scanned',
+                scoreLabel: 'Originality',
+                id: p.id
+            });
+        });
+        
+        contracts.forEach(c => {
+            activities.push({
+                type: 'contract',
+                title: c.title,
+                score: c.fairness_score,
+                date: c.created_at,
+                action: 'Analyzed',
+                scoreLabel: 'Fairness',
+                id: c.id
+            });
+        });
+        
+        // Sort by date (newest first)
+        activities.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        // Take last 5 activities
+        const recentActivities = activities.slice(0, 5);
+        
+        if (recentActivities.length === 0) {
+            container.innerHTML = '<div class="placeholder-panel"><p>No recent activity. Upload a project or contract to get started!</p></div>';
+            return;
+        }
+        
+        container.innerHTML = recentActivities.map(activity => `
+            <div class="activity-item" style="cursor:pointer;" onclick="view${activity.type === 'project' ? 'ProjectAnalysis' : 'ContractAnalysis'}(${activity.id})">
+                <div class="activity-status status-${activity.type === 'project' ? 'scanned' : 'matched'}"></div>
+                <div class="activity-info">
+                    <h4>${escapeHtml(activity.title)}</h4>
+                    <span>${activity.action} ${new Date(activity.date).toLocaleDateString()} • ${activity.scoreLabel}: ${activity.score}%</span>
+                </div>
+                <div class="activity-score" style="color: ${activity.score >= 85 ? 'var(--success)' : activity.score >= 70 ? 'var(--teal)' : 'var(--amber)'}">
+                    ${activity.score}
+                </div>
+                <div class="activity-actions">
+                    <button class="btn btn-ghost btn-small" onclick="event.stopPropagation(); view${activity.type === 'project' ? 'ProjectAnalysis' : 'ContractAnalysis'}(${activity.id})">View</button>
+                </div>
+            </div>
+        `).join('');
+        
+    } catch(e) {
+        console.error('Error loading recent activity:', e);
+        container.innerHTML = '<div class="placeholder-panel"><p>Error loading activity. Please refresh.</p></div>';
+    }
+}
+
+// Subscription Modal
+function showSubscriptionModal() {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    
+    modal.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:28px;padding:32px;max-width:500px;width:90%;position:relative;">
+            <button onclick="this.closest('.profile-modal').remove()" style="position:absolute;top:20px;right:24px;background:transparent;border:none;color:var(--text-muted);font-size:28px;cursor:pointer;">&times;</button>
+            <h2 style="font-family:Orbitron;margin-bottom:20px;">💰 Choose Your Plan</h2>
+            
+            <div style="display:grid;gap:15px;">
+                <!-- Freemium Plan -->
+                <div style="background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;border:1px solid var(--border);">
+                    <h3 style="color:var(--teal);">🎁 Freemium</h3>
+                    <p style="font-size:24px;font-weight:700;">$0 <span style="font-size:12px;">/month</span></p>
+                    <ul style="margin-top:10px;list-style:none;padding-left:0;">
+                        <li>✓ 1 project OR contract upload</li>
+                        <li>✓ Basic AI analysis</li>
+                        <li>✓ Standard support</li>
+                    </ul>
+                    <button class="btn btn-secondary" style="width:100%;margin-top:15px;" onclick="alert('You are already on Freemium')">Current Plan</button>
+                </div>
+                
+                <!-- Pro Plan -->
+                <div style="background:linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,212,255,0.05));border-radius:16px;padding:20px;border:2px solid var(--teal);">
+                    <h3 style="color:var(--teal);">🚀 Pro</h3>
+                    <p style="font-size:24px;font-weight:700;">$19 <span style="font-size:12px;">/month</span></p>
+                    <ul style="margin-top:10px;list-style:none;padding-left:0;">
+                        <li>✓ Unlimited project uploads</li>
+                        <li>✓ Unlimited contract analysis</li>
+                        <li>✓ Full AI analysis</li>
+                        <li>✓ Priority support</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width:100%;margin-top:15px;" onclick="upgradePlan('pro')">Upgrade to Pro</button>
+                </div>
+                
+                <!-- Premium Plan -->
+                <div style="background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;border:1px solid var(--border);">
+                    <h3 style="color:var(--cyan);">💎 Premium</h3>
+                    <p style="font-size:24px;font-weight:700;">$100 <span style="font-size:12px;">/month</span></p>
+                    <ul style="margin-top:10px;list-style:none;padding-left:0;">
+                        <li>✓ Everything in Pro</li>
+                        <li>✓ FinCoach AI App access</li>
+                        <li>✓ Unlimited FinCoach usage</li>
+                        <li>✓ 24/7 VIP support</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width:100%;margin-top:15px;" onclick="upgradePlan('premium')">Upgrade to Premium</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+async function upgradePlan(plan) {
+    showToast('Processing upgrade...', 'info');
+    
+    try {
+        const response = await fetch('/api/subscription/upgrade', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ plan: plan })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            document.querySelector('.profile-modal')?.remove();
+            showToast(`✅ Upgraded to ${plan} plan!`, 'success');
+        } else {
+            showToast(data.error || 'Upgrade failed', 'error');
+        }
+    } catch(e) {
+        showToast('Upgrade failed', 'error');
+    }
+}
+
+</script>
+
+</body>
+</html>

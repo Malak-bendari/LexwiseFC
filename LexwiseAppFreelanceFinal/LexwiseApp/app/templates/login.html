@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <h1>Welcome to LexWise</h1>
+    <p>Protect your ideas, analyze contracts, and connect with investors.</p>
+</div>
+
+<div class="flip-container">
+    <div class="flipper" id="flipper">
+        
+        <!-- LOGIN FORM (FRONT) -->
+        <div class="front">
+            <h3>Welcome Back</h3>
+            
+            <form method="POST" action="{{ url_for('auth.login') }}">
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Email</label>
+                    <input type="email" name="email" required style="width: 100%; padding: 12px; background: var(--bg-deep); border: 1px solid var(--border); border-radius: 8px; color: white; box-sizing: border-box;">
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="password" id="login-password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('login-password', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+            
+            <p style="text-align: center; margin-top: 25px; color: var(--text-secondary);">
+                Don't have an account? 
+                <a href="javascript:void(0)" onclick="flipCard()" style="color: var(--teal);">Register here</a>
+            </p>
+        </div>
+        
+        <!-- REGISTER FORM (BACK) -->
+        <div class="back">
+            <h3>Create Account</h3>
+            
+            <form method="POST" action="{{ url_for('auth.register') }}">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Username</label>
+                    <input type="text" name="username" required style="width: 100%; padding: 12px; background: var(--bg-deep); border: 1px solid var(--border); border-radius: 8px; color: white; box-sizing: border-box;">
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Email</label>
+                    <input type="email" name="email" required style="width: 100%; padding: 12px; background: var(--bg-deep); border: 1px solid var(--border); border-radius: 8px; color: white; box-sizing: border-box;">
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="password" id="register-password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('register-password', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Confirm Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="confirm_password" id="confirm-password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirm-password', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
+            </form>
+            
+            <p style="text-align: center; margin-top: 25px; color: var(--text-secondary);">
+                Already have an account? 
+                <a href="javascript:void(0)" onclick="flipCard()" style="color: var(--teal);">Login here</a>
+            </p>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    function flipCard() {
+        const flipper = document.getElementById('flipper');
+        flipper.classList.toggle('flipped');
+    }
+    
+    function togglePassword(inputId, button) {
+        const input = document.getElementById(inputId);
+        const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+        input.setAttribute('type', type);
+        
+        const svg = button.querySelector('svg');
+        if (type === 'text') {
+            svg.style.stroke = 'var(--teal)';
+        } else {
+            svg.style.stroke = '';
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const flashMessages = document.querySelectorAll('.alert');
+        let showRegister = false;
+        
+        flashMessages.forEach(function(msg) {
+            if (msg.textContent.includes('register') || 
+                msg.textContent.includes('username') || 
+                msg.textContent.includes('password')) {
+                showRegister = true;
+            }
+        });
+        
+        if (showRegister || window.location.hash === '#register') {
+            document.getElementById('flipper').classList.add('flipped');
+        }
+    });
+</script>
+{% endblock %}

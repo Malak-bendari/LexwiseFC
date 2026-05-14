@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- DASHBOARD PAGE -->
+<div id="lex-home" class="page active">
+    <div class="hero">
+        <h1>Your ideas. Protected. Matched. Signed.</h1>
+        <p>LexWise scans, scores, and secures your next move. AI-powered contract analysis, smart investor matching, and idea protection - all in one place.</p>
+        <div class="hero-buttons">
+            <button class="btn btn-primary" onclick="alert('Upload Project modal would open here')">
+                <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Upload Project
+            </button>
+            <button class="btn btn-secondary" onclick="alert('Contract Analysis modal would open here')">
+                <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Analyze Contract
+            </button>
+        </div>
+    </div>
+
+    <!-- Cross-promotion banner -->
+    <div class="service-banner" onclick="switchToService('fincoach')">
+        <div class="service-banner-content">
+            <div class="service-banner-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="service-banner-text">
+                <h4>Level Up Your Finances</h4>
+                <p>Switch to FinCoach for AI-powered budgeting, savings challenges, and investment tracking.</p>
+            </div>
+        </div>
+        <div class="service-banner-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card" onclick="alert('Idea Check: AI scans originality, detects weaknesses')">
+            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M17.636 17.636l-.707-.707M12 21v-1M6.343 17.636l.707-.707M3 12h1M6.343 6.343l.707.707M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg></div>
+            <h3>Idea Check</h3>
+            <p>AI originality scan + automatic weakness detection and improvement suggestions.</p>
+        </div>
+        <div class="feature-card" onclick="alert('Smart Match: AI matches you with vetted investors')">
+            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <h3>Smart Match</h3>
+            <p>Get matched with entrepreneurs and investors aligned with your preferences.</p>
+        </div>
+        <div class="feature-card" onclick="alert('Contract Score: AI analyzes clauses, gives fairness score')">
+            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+            <h3>Contract Score</h3>
+            <p>Fairness analysis out of 100. Dangerous clauses highlighted before you sign.</p>
+        </div>
+        <div class="feature-card" onclick="alert('Negotiate: AI generates copy-paste renegotiation scripts')">
+            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+            <h3>Negotiate</h3>
+            <p>Copy-paste renegotiation scripts for unfair clauses - no lawyer needed.</p>
+        </div>
+    </div>
+
+    <div class="section-header">
+        <h2>Recent Activity</h2>
+        <span style="color: var(--text-muted); font-size: 0.8rem;">Last 7 days</span>
+    </div>
+    <div class="activity-list">
+        <div class="activity-item">
+            <div class="activity-status status-scanned"></div>
+            <div class="activity-info">
+                <h4>E-Commerce Platform Concept</h4>
+                <span>Scanned 2 hours ago &bull; Originality: 94%</span>
+            </div>
+            <div class="activity-score">94</div>
+            <div class="activity-actions"><button class="btn btn-ghost btn-small">View</button></div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-status status-matched"></div>
+            <div class="activity-info">
+                <h4>AI Tutoring App Proposal</h4>
+                <span>Matched with 3 investors &bull; Avg. budget: $45K</span>
+            </div>
+            <div class="activity-score">87</div>
+            <div class="activity-actions"><button class="btn btn-ghost btn-small">View</button></div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-status status-signed"></div>
+            <div class="activity-info">
+                <h4>Freelance Design Contract</h4>
+                <span>Signed yesterday &bull; Fairness score: 92/100</span>
+            </div>
+            <div class="activity-score" style="color: var(--success);">92</div>
+            <div class="activity-actions"><button class="btn btn-ghost btn-small">View</button></div>
+        </div>
+    </div>
+</div>
+
+<!-- PROJECTS PAGE -->
+<div id="lex-projects" class="page">
+    <div class="section-header">
+        <h2>Projects</h2>
+        <span style="color: var(--teal); font-size: 0.8rem;">Manage your work</span>
+    </div>
+    <div class="placeholder-panel">
+        <h3>Project Workspace</h3>
+        <p>Build and manage your freelance application projects from one place. Add ideas, assign milestones, and prepare pitch-ready summaries.</p>
+        <div class="placeholder-actions">
+            <button class="btn btn-primary" onclick="addProject()">Create New Project</button>
+            <button class="btn btn-secondary" onclick="refreshProjects()">Refresh Projects</button>
+        </div>
+    </div>
+    <div id="projectList" class="activity-list">
+        <div class="activity-item">
+            <div class="activity-status status-scanned"></div>
+            <div class="activity-info"><h4>Brand Protection App</h4><span>Saved 1 hour ago • Ready for review</span></div>
+            <div class="activity-score">87</div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-status status-scanned"></div>
+            <div class="activity-info"><h4>Freelance pitch deck</h4><span>Saved 3 hours ago • Awaiting investor feedback</span></div>
+            <div class="activity-score">92</div>
+        </div>
+    </div>
+</div>
+
+<!-- CONTRACTS PAGE -->
+<div id="lex-contracts" class="page">
+    <div class="section-header">
+        <h2>Contracts</h2>
+        <span style="color: var(--teal); font-size: 0.8rem;">Secure & analyze</span>
+    </div>
+    <div class="placeholder-panel">
+        <h3>Contract Hub</h3>
+        <p>Secure, scan and manage contract drafts with AI-powered clause review. Upload a document to see automatic risk highlights.</p>
+        <div class="placeholder-actions">
+            <button class="btn btn-primary" onclick="addContract()">Upload Contract</button>
+            <button class="btn btn-secondary" onclick="refreshContracts()">View Recent Contracts</button>
+        </div>
+    </div>
+    <div id="contractList" class="activity-list">
+        <div class="activity-item">
+            <div class="activity-status status-matched"></div>
+            <div class="activity-info"><h4>Non-Disclosure Agreement</h4><span>Scanned 30m ago • All clear</span></div>
+            <div class="activity-score">99</div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-status status-scanned"></div>
+            <div class="activity-info"><h4>Service Agreement</h4><span>Scanned 2h ago • Clause 7 flagged</span></div>
+            <div class="activity-score">78</div>
+        </div>
+    </div>
+</div>
+
+<!-- MATCHES PAGE -->
+<div id="lex-matches" class="page">
+    <div class="section-header">
+        <h2>Matches</h2>
+        <span style="color: var(--teal); font-size: 0.8rem;">Smart connections</span>
+    </div>
+    <div class="placeholder-panel">
+        <h3>Smart Matches</h3>
+        <p>Meet the right investors, partners and collaborators that match your freelance idea profile. Refresh the feed to discover new opportunities.</p>
+        <div class="placeholder-actions">
+            <button class="btn btn-primary" onclick="refreshMatches()">Refresh Matches</button>
+            <button class="btn btn-secondary" onclick="alert('Match details')">View Match Details</button>
+        </div>
+    </div>
+    <div id="matchList" class="activity-list">
+        <div class="activity-item">
+            <div class="activity-status status-matched"></div>
+            <div class="activity-info"><h4>Investor Group Alpha</h4><span>Match score: 93% • Prefers legal-tech startups</span></div>
+            <div class="activity-score">93</div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-status status-matched"></div>
+            <div class="activity-info"><h4>Legal Accelerators</h4><span>Match score: 87% • Early-stage funding</span></div>
+            <div class="activity-score">87</div>
+        </div>
+    </div>
+</div>
+
+<!-- MESSAGES PAGE -->
+<div id="lex-messages" class="page">
+    <div class="section-header">
+        <h2>Messages</h2>
+        <span style="color: var(--teal); font-size: 0.8rem;">Secure chat</span>
+    </div>
+    <div class="placeholder-panel">
+        <h3>Chat & Notifications</h3>
+        <p>Send quick messages, follow up with investors, and keep all your freelance conversations in one secure space.</p>
+        <div class="placeholder-actions">
+            <button class="btn btn-primary" onclick="newMessage()">Start New Message</button>
+            <button class="btn btn-secondary" onclick="refreshMessages()">Refresh Inbox</button>
+        </div>
+    </div>
+    <div id="messageList" class="activity-list">
+        <div class="activity-item">
+            <div class="activity-status status-signed"></div>
+            <div class="activity-info"><h4>Alex Johnson</h4><span>Last replied 1h ago • Project follow-up</span></div>
+            <div class="activity-score">In</div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-status status-matched"></div>
+            <div class="activity-info"><h4>Legal Team</h4><span>Awaiting response • Contract revision</span></div>
+            <div class="activity-score">Out</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Projects functions
+    function addProject() {
+        const name = prompt('New project title', 'Freelance Legal Platform');
+        if (!name) return;
+        const list = document.getElementById('projectList');
+        const item = document.createElement('div');
+        item.className = 'activity-item';
+        item.innerHTML = `<div class="activity-status status-scanned"></div><div class="activity-info"><h4>${name}</h4><span>Created just now • Saved to Projects</span></div><div class="activity-score">NEW</div>`;
+        list.prepend(item);
+    }
+
+    function refreshProjects() {
+        const list = document.getElementById('projectList');
+        list.innerHTML = `<div class="activity-item"><div class="activity-status status-matched"></div><div class="activity-info"><h4>Brand Protection App</h4><span>Saved 1 hour ago • Ready for review</span></div><div class="activity-score">87</div></div>
+        <div class="activity-item"><div class="activity-status status-scanned"></div><div class="activity-info"><h4>Freelance pitch deck</h4><span>Saved 3 hours ago • Awaiting investor feedback</span></div><div class="activity-score">92</div></div>`;
+    }
+
+    // Contracts functions
+    function addContract() {
+        const name = prompt('Contract name', 'Freelancer Terms v1');
+        if (!name) return;
+        const list = document.getElementById('contractList');
+        const item = document.createElement('div');
+        item.className = 'activity-item';
+        item.innerHTML = `<div class="activity-status status-signed"></div><div class="activity-info"><h4>${name}</h4><span>Uploaded just now • AI review in progress</span></div><div class="activity-score">--</div>`;
+        list.prepend(item);
+    }
+
+    function refreshContracts() {
+        const list = document.getElementById('contractList');
+        list.innerHTML = `<div class="activity-item"><div class="activity-status status-matched"></div><div class="activity-info"><h4>Non-Disclosure Agreement</h4><span>Scanned 30m ago • All clear</span></div><div class="activity-score">99</div></div>
+        <div class="activity-item"><div class="activity-status status-scanned"></div><div class="activity-info"><h4>Service Agreement</h4><span>Scanned 2h ago • Clause 7 flagged</span></div><div class="activity-score">78</div></div>`;
+    }
+
+    // Matches functions
+    function refreshMatches() {
+        const list = document.getElementById('matchList');
+        list.innerHTML = `<div class="activity-item"><div class="activity-status status-matched"></div><div class="activity-info"><h4>Investor Group Alpha</h4><span>Match score: 93% • Prefers legal-tech startups</span></div><div class="activity-score">93</div></div>
+        <div class="activity-item"><div class="activity-status status-matched"></div><div class="activity-info"><h4>Legal Accelerators</h4><span>Match score: 87% • Early-stage funding</span></div><div class="activity-score">87</div></div>`;
+    }
+
+    // Messages functions
+    function newMessage() {
+        const name = prompt('Recipient name', 'Investor Chat');
+        if (!name) return;
+        const list = document.getElementById('messageList');
+        const item = document.createElement('div');
+        item.className = 'activity-item';
+        item.innerHTML = `<div class="activity-status status-scanned"></div><div class="activity-info"><h4>${name}</h4><span>Message draft created. Start your conversation.</span></div><div class="activity-score">NEW</div>`;
+        list.prepend(item);
+    }
+
+    function refreshMessages() {
+        const list = document.getElementById('messageList');
+        list.innerHTML = `<div class="activity-item"><div class="activity-status status-signed"></div><div class="activity-info"><h4>Alex Johnson</h4><span>Last replied 1h ago • Project follow-up</span></div><div class="activity-score">In</div></div>
+        <div class="activity-item"><div class="activity-status status-matched"></div><div class="activity-info"><h4>Legal Team</h4><span>Awaiting response • Contract revision</span></div><div class="activity-score">Out</div></div>`;
+    }
+</script>
+
+{% endblock %}
